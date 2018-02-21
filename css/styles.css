@@ -154,7 +154,7 @@ nav h1 a {
   background-color: white;
   border: 1px solid #fff;
   font-family: Arial, sans-serif;
-  font-size: 11pt;
+  font-size: 16pt;
   height: 35px;
   letter-spacing: 0;
   margin: 10px;
@@ -205,7 +205,7 @@ nav h1 a {
 
 #restaurants-list p {
   margin: 0;
-  font-size: 11pt;
+  font-size: 16pt;
 }
 
 #restaurants-list li a {
@@ -213,7 +213,7 @@ nav h1 a {
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
-  font-size: 10pt;
+  font-size: 16pt;
   margin: 15px 0 0;
   padding: 8px 30px 10px;
   text-align: center;
@@ -296,10 +296,13 @@ nav h1 a {
 #restaurant-container {
   display: flex;
   flex-wrap: wrap;
+  margin: 10px;
 }
 
 #reviews-container {
-  padding: 30px 15px 80px;
+  padding: 30px 0 80px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 #reviews-container h2 {
@@ -313,6 +316,8 @@ nav h1 a {
 #reviews-list {
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 #reviews-list li {
@@ -372,7 +377,7 @@ nav h1 a {
   font-weight: bold;
   border-radius: 3px;
 }
-#restaurant-c
+
 #reviews-list li p:nth-child(4) {
   margin-top: 30px;
   font-size: 11pt;
@@ -388,7 +393,6 @@ nav h1 a {
   }
 
   #reviews-list li {
-    background: linear-gradient(0deg, #fff 87%, #000 13%);
   }
 
   #reviews-list li p:first-child {
@@ -406,9 +410,7 @@ nav h1 a {
 }
 
 @media screen and (min-width: 600px) {
-  #reviews-list li {
-    background: linear-gradient(0deg, #fff 83%, #000 17%);
-  }
+
 }
 
 @media screen and (min-width: 750px) {
@@ -440,17 +442,35 @@ nav h1 a {
     order: 3;
     width: 60%;
   }
+  #reviews-list li {
+    width: calc(50% - 45px);
+  }
   * {
     order: 20;
   }
 }
 
 @media screen and (min-width: 1200px) {
+
   #map {
+    height: 600px;
+  }
+
+  .inside #map-container {
     height: 600px;
   }
 
   #restaurants-list li {
 		width: calc(33% - 46px);
 	}
+}
+
+@media screen and (min-width: 1600px) {
+  #map {
+    height: 800px;
+  }
+
+  .inside #map-container {
+    height: 800px;
+  }
 }
