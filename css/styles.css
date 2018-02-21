@@ -378,6 +378,10 @@ nav h1 a {
 }
 
 @media screen and (min-width: 1200px) {
+  #map {
+    height: 600px;
+  }
+
   #restaurants-list li {
 		width: calc(33% - 46px);
 	}
