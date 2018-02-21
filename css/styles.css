@@ -78,7 +78,7 @@ nav h1 {
 
 nav h1 a {
   color: #fff;
-  font-size: 14pt;
+  font-size: 20pt;
   font-weight: 200;
   letter-spacing: 5px;
   text-transform: uppercase;
@@ -319,7 +319,7 @@ nav h1 a {
   overflow: hidden;
   padding: 20px 20px 20px 20px;
   position: relative;
-  width: 85%;
+  width: calc(100% - 45px);
   border-radius: 10% 0 10% 0;
 }
 
@@ -364,6 +364,25 @@ nav h1 a {
 
 #restaurant-hours td {
   color: #666;
+}
+
+@media screen and (min-width: 400px) {
+  #reviews-list li {
+    background: linear-gradient(0deg, #fff 87%, #000 13%);
+  }
+
+  #reviews-list li p:first-child {
+    font-size: 18pt;
+  }
+
+  #reviews-list li p:nth-child(2) {
+    font-size: 14pt;
+    padding-top: 5px;
+  }
+
+  #reviews-list li p:nth-child(4) {
+    font-size: 16pt;
+  }
 }
 
 @media screen and (min-width: 750px) {
