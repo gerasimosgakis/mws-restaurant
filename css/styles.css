@@ -385,6 +385,12 @@ nav h1 a {
   }
 }
 
+@media screen and (min-width: 600px) {
+  #reviews-list li {
+    background: linear-gradient(0deg, #fff 83%, #000 17%);
+  }
+}
+
 @media screen and (min-width: 750px) {
 	nav h1 a {
 		font-size: 2em;
