@@ -376,3 +376,9 @@ nav h1 a {
 		width: calc(50% - 50px);
 	}
 }
+
+@media screen and (min-width: 1200px) {
+  #restaurants-list li {
+		width: calc(33% - 46px);
+	}
+}
