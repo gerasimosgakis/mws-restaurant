@@ -170,6 +170,8 @@ nav h1 a {
   margin: 0;
   padding: 30px 15px 60px;
   text-align: center;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 #restaurants-list li {
@@ -187,6 +189,7 @@ nav h1 a {
   margin: 0;
   width: 100%;
   min-height: 228px;
+	border-radius: 10% 0 10% 0;
 }
 
 #restaurants-list li h1 {
@@ -360,4 +363,10 @@ nav h1 a {
 
 #restaurant-hours td {
   color: #666;
+}
+
+@media screen and (min-width: 750px) {
+	#restaurants-list li {
+		width: 40%;
+	}
 }
