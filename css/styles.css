@@ -20,7 +20,7 @@ body {
 
 ul, li {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 12pt;
+  font-size: 18pt;
   color: #333;
 }
 
@@ -387,33 +387,40 @@ nav h1 a {
   color: #666;
 }
 
-@media screen and (min-width: 400px) {
-  body, td, th, p {
-    font-size: 12pt;
-  }
-
-  #reviews-list li {
-  }
-
+@media screen and (min-width: 450px) {
   #reviews-list li p:first-child {
     font-size: 18pt;
   }
 
   #reviews-list li p:nth-child(2) {
     font-size: 14pt;
-    padding-top: 5px;
-  }
-
-  #reviews-list li p:nth-child(4) {
-    font-size: 16pt;
   }
 }
 
 @media screen and (min-width: 600px) {
+  body, td, th, p {
+    font-size: 14pt;
+  }
 
+  #reviews-list li p:nth-child(3){
+    font-size: 16pt;
+    width: 160px;
+  }
+
+  #reviews-list li p:nth-child(4) {
+    font-size: 14pt;
+  }
 }
 
 @media screen and (min-width: 750px) {
+  .filter-options h2 {
+    font-size: 2em;
+  }
+
+  #reviews-container h2 {
+    font-size: 3em;
+  }
+
 	nav h1 a {
 		font-size: 2em;
 		letter-spacing: 10px;
@@ -466,11 +473,15 @@ nav h1 a {
 }
 
 @media screen and (min-width: 1600px) {
-  #map {
-    height: 800px;
+  #restaurant-cuisine {
+    font-size: 20pt;
   }
 
-  .inside #map-container {
-    height: 800px;
+  #restaurant-address {
+    font-size: 20pt;
+  }
+
+  body, td, th, p {
+    font-size: 18pt;
   }
 }
