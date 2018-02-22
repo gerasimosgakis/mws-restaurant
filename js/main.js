@@ -78,7 +78,7 @@ window.initMap = () => {
   self.map = new google.maps.Map(document.getElementById('map'), {
     zoom: 12,
     center: loc,
-    scrollwheel: false
+    scrollwheel: false,
   });
   updateRestaurants();
 }
@@ -140,12 +140,20 @@ createRestaurantHTML = (restaurant) => {
 
   const image = document.createElement('img');
   image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+
+  // When the width is less than 400 or between 750 and 100px the images are small
+  if (window.innerWidth <= 400 || (window.innerWidth > 750 && window.innerWidth <= 1000)) {
+    image.src = DBHelper.imageUrlForRestaurantSmall(restaurant);
+  }
+  else { //otherwise the images are medium
+    image.src = DBHelper.imageUrlForRestaurantMedium(restaurant);
+  }
   image.alt = restaurant.name + ' photo';
   li.append(image);
 
   const name = document.createElement('h1');
   name.innerHTML = restaurant.name;
+  name.setAttribute('tabindex', '0');
   li.append(name);
 
   const neighborhood = document.createElement('p');

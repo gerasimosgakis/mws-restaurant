@@ -56,8 +56,21 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.className = 'restaurant-img';
+
+  // If screen width is smaller than 400px the small photo is loaded
+  if (window.innerWidth <= 400) {
+    image.src = DBHelper.imageUrlForRestaurantSmall(restaurant);
+  }
+  //if the screen width is between 400 and 1600 the medium photo is more than good
+  else if (window.innerWidth > 400 && window.innerWidth <= 1600) {
+    image.src = DBHelper.imageUrlForRestaurantMedium(restaurant);
+  }
+  //other wise for really wide screens we load the large photo
+  else {
+    image.src = DBHelper.imageUrlForRestaurantLarge(restaurant);
+  }
+
   image.alt = restaurant.name + ' photo';
 
   const cuisine = document.getElementById('restaurant-cuisine');

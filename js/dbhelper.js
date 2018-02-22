@@ -149,8 +149,19 @@ class DBHelper {
   /**
    * Restaurant image URL.
    */
-  static imageUrlForRestaurant(restaurant) {
-    return (`/img/${restaurant.photograph}`);
+
+  /* I created three different functions so depending
+   the screen-width I will be calling them respectively*/
+  static imageUrlForRestaurantSmall(restaurant) {
+    return (`/img/${restaurant.id}-400_small.jpg`);
+  }
+
+  static imageUrlForRestaurantMedium(restaurant) {
+    return (`/img/${restaurant.id}-800_medium.jpg`);
+  }
+
+  static imageUrlForRestaurantLarge(restaurant) {
+    return (`/img/${restaurant.id}-1600_large.jpg`);
   }
 
   /**

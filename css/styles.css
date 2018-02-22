@@ -1,6 +1,19 @@
 @charset "utf-8";
 /* CSS Document */
 
+.skip-map {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #ff1424;
+  color: white;
+  padding: 8px;
+  z-index: 1000;
+}
+.skip-map:focus {
+  top: 0;
+}
+
 img, embed, object, video {
   max-width: 100%;
 }
@@ -20,7 +33,7 @@ body {
 
 ul, li {
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 18pt;
+  font-size: 12pt;
   color: #333;
 }
 
@@ -193,7 +206,7 @@ nav h1 a {
 }
 
 #restaurants-list li h1 {
-  color: #f18200;
+  color: #b56000;
   font-family: Arial, sans-serif;
   font-size: 14pt;
   font-weight: 200;
@@ -324,6 +337,8 @@ nav h1 a {
   background-color: #fff;
   border: 2px solid #f3f3f3;
   display: block;
+  display: flex;
+  flex-wrap: wrap;
   list-style-type: none;
   margin: 0 0 30px;
   overflow: hidden;
@@ -352,17 +367,14 @@ nav h1 a {
 
 #reviews-list li p:first-child {
   color: #fff;
-  width: 30%;
-  float: left;
+  width: 40%;
   font-size: 14pt;
 }
 
 #reviews-list li p:nth-child(2) {
   color: #f3f1f1;
   width: 55%;
-  float: right;
   font-size: 12pt;
-  padding-top: 3px;
 	text-align: right;
 }
 
@@ -400,6 +412,10 @@ nav h1 a {
 @media screen and (min-width: 600px) {
   body, td, th, p {
     font-size: 14pt;
+  }
+
+  ul, li {
+    font-size: 18pt;
   }
 
   #reviews-list li p:nth-child(3){
