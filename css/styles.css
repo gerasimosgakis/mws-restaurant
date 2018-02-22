@@ -3,7 +3,7 @@
 
 .skip-map {
   position: absolute;
-  top: -40px;
+  top: -100px;
   left: 0;
   background: #ff1424;
   color: white;
@@ -222,7 +222,7 @@ nav h1 a {
 }
 
 #restaurants-list li a {
-  background-color: orange;
+  background-color: #a46a00;
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
