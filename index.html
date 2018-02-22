@@ -10,17 +10,23 @@
 </head>
 
 <body>
+  <!-- Beginning header -->
   <header>
     <nav>
       <h1><a href="/">Restaurant Reviews</a></h1>
     </nav>
   </header>
+  <!-- End header -->
 
+  <!-- Beginning main -->
   <main id="maincontent">
     <a href ="#filter-options" class="skip-map">Skip the map</a>
+    <!-- Beginning map -->
     <section id="map-container">
       <div role="map" aria-label="map" id="map"></div>
     </section>
+    <!-- End map -->
+    <!-- Beginning filter -->
     <section role="filter" aria-label="filter">
       <div id="filter-options" class="filter-options" tabindex="-1">
         <h2>Filter Results</h2>
@@ -33,11 +39,13 @@
       </div>
       <ul id="restaurants-list"></ul>
     </section>
+    <!-- End filter -->
   </main>
+  <!-- End main -->
 
   <script type="application/javascript" charset="utf-8" src="js/dbhelper.js"></script>
   <script type="application/javascript" charset="utf-8" src="js/main.js"></script>
-  <script src="js/indexController.js"></script>
+  <script type="application/javascript" charset="utf-8" src="js/indexController.js"></script>
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD1MLfTgjolbTlpJF9TzlBssfDZpPLYcDk&libraries=places&callback=initMap"></script>
 
 
