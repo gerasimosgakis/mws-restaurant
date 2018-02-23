@@ -16,11 +16,17 @@
 }
 
 /*Default rule to prevent any element to be wider than the viewport*/
-img, embed, object, video {
+img,
+embed,
+object,
+video {
   max-width: 100%;
 }
 
-body, td, th, p {
+body,
+td,
+th,
+p {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 11pt;
   color: #333;
@@ -33,7 +39,8 @@ body {
   position: relative;
 }
 
-ul, li {
+ul,
+li {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12pt;
   color: #333;
@@ -44,7 +51,8 @@ a {
   text-decoration: none;
 }
 
-a:hover, a:focus {
+a:hover,
+a:focus {
   color: #3397db;
   text-decoration: none;
 }
@@ -53,12 +61,28 @@ a img {
   border: none 0px #fff;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: 'Open Sans Condensed', Arial, Helvetica, sans-serif;
   margin: 0 0 20px;
 }
 
-article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+article,
+aside,
+canvas,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
   display: block;
 }
 
@@ -302,7 +326,8 @@ nav h1 a {
   width: 100%;
 }
 
-.restaurant-container, .reviews-container {
+.restaurant-container,
+.reviews-container {
   border-bottom: 1px solid #d9d9d9;
   border-top: 1px solid #fff;
   padding: 140px 0 30px;
@@ -414,11 +439,15 @@ nav h1 a {
 
 /* Media rule for screens wider than 600px */
 @media screen and (min-width: 600px) {
-  body, td, th, p {
+  body,
+  td,
+  th,
+  p {
     font-size: 14pt;
   }
 
-  ul, li {
+  ul,
+  li {
     font-size: 18pt;
   }
 
@@ -504,7 +533,10 @@ nav h1 a {
     font-size: 20pt;
   }
 
-  body, td, th, p {
+  body,
+  td,
+  th,
+  p {
     font-size: 18pt;
   }
 }

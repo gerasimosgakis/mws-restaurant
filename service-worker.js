@@ -9,14 +9,11 @@
     otherwise it's fetched from the network and is stored in cache
    */
   self.addEventListener('fetch', function(event) {
-    console.log('Fetch event for ', event.request.url);
     event.respondWith(
       caches.match(event.request).then(function(response) {
         if (response) {
-          console.log('Found ', event.request.url, ' in cache');
           return response;
         }
-        console.log('Network request for ', event.request.url);
         return fetch(event.request).then(function(response) {
           return caches.open(staticCacheName).then(function(cache) {
             if (event.request.url.indexOf('test') < 0) {
