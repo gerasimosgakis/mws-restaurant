@@ -2,7 +2,7 @@
   'use strict';
 
   // variable with the name for the cache
-  let staticCacheName = 'pages-cache-v1';
+  let staticCacheName = 'pages-cache-v2';
 
   /**
    * Returns the request from cache if it exists
