@@ -1,6 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
 
+/*Skip-map button*/
 .skip-map {
   position: absolute;
   top: -100px;
@@ -14,6 +15,7 @@
   top: 0;
 }
 
+/*Default rule to prevent any element to be wider than the viewport*/
 img, embed, object, video {
   max-width: 100%;
 }
@@ -66,7 +68,7 @@ main {
 }
 
 footer {
-  background-color: #444;
+  background-color: #3f3f3f;
   color: #aaa;
   font-size: 8pt;
   letter-spacing: 1px;
@@ -205,7 +207,7 @@ nav h1 a {
 	border-radius: 10% 0 10% 0;
 }
 
-#restaurants-list li h1 {
+#restaurants-list li h3 {
   color: #b56000;
   font-family: Arial, sans-serif;
   font-size: 14pt;
@@ -399,6 +401,7 @@ nav h1 a {
   color: #666;
 }
 
+/* Media rule for screens wider than 450px */
 @media screen and (min-width: 450px) {
   #reviews-list li p:first-child {
     font-size: 18pt;
@@ -409,6 +412,7 @@ nav h1 a {
   }
 }
 
+/* Media rule for screens wider than 600px */
 @media screen and (min-width: 600px) {
   body, td, th, p {
     font-size: 14pt;
@@ -428,6 +432,7 @@ nav h1 a {
   }
 }
 
+/* Media rule for screens smaller than 750px */
 @media screen and (min-width: 750px) {
   .filter-options h2 {
     font-size: 2em;
@@ -447,6 +452,7 @@ nav h1 a {
 	}
 }
 
+/* Media rule for screens wider than 950px */
 @media screen and (min-width: 950px) {
   #restaurant-name {
     order: 0;
@@ -473,8 +479,8 @@ nav h1 a {
   }
 }
 
+/* Media rule for screens wider than 1200px */
 @media screen and (min-width: 1200px) {
-
   #map {
     height: 600px;
   }
@@ -488,6 +494,7 @@ nav h1 a {
 	}
 }
 
+/* Media rule for screens wider than 1600px */
 @media screen and (min-width: 1600px) {
   #restaurant-cuisine {
     font-size: 20pt;

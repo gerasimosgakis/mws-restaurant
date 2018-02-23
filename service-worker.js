@@ -1,8 +1,13 @@
 (function() {
   'use strict';
 
-  var staticCacheName = 'pages-cache-v1';
+  // variable with the name for the cache
+  let staticCacheName = 'pages-cache-v1';
 
+  /**
+   * Returns the request from cache if it exists
+    otherwise it's fetched from the network and is stored in cache
+   */
   self.addEventListener('fetch', function(event) {
     console.log('Fetch event for ', event.request.url);
     event.respondWith(
@@ -26,6 +31,10 @@
     );
   });
 
+  /**
+   * When new service worker is activated, if there is a new cache
+   the old one is deleted
+   */
   self.addEventListener('activate', function(event) {
     console.log('Activating new service worker...');
 
