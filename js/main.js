@@ -148,7 +148,7 @@ createRestaurantHTML = (restaurant) => {
   else { //otherwise the images are medium
     image.src = DBHelper.imageUrlForRestaurantMedium(restaurant);
   }
-  image.alt = restaurant.name + ' photo';
+  image.alt = restaurant.name + " restaurant's cover photo";
   li.append(image);
 
   const name = document.createElement('h3');
