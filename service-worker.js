@@ -4,6 +4,25 @@
   // variable with the name for the cache
   let staticCacheName = 'pages-cache-v1';
 
+  var urlsToCache = [
+    '.',
+    'https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300',
+    'index.html',
+    'restaurant.html',
+    'css/styles.css',
+    'js/main.js',
+    'js/restaurant_info.js',
+    'js/dbhelper.js',
+  ];
+
+  self.addEventListener('install', function(event) {
+    event.waitUntil(
+      caches.open(staticCacheName)
+      .then(function(cache) {
+        return cache.addAll(urlsToCache);
+      })
+    );
+  });
   /**
    * Returns the request from cache if it exists
     otherwise it's fetched from the network and is stored in cache
