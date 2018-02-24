@@ -509,7 +509,7 @@ nav h1 a {
 }
 
 /* Media rule for screens wider than 1200px */
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1226px) {
   #map {
     height: 600px;
   }
