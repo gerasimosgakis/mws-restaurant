@@ -126,7 +126,6 @@ resetRestaurants = (restaurants) => {
  */
 fillRestaurantsHTML = (restaurants = self.restaurants) => {
   const ul = document.getElementById('restaurants-list');
-  let i = 1;
   restaurants.forEach(restaurant => {
     ul.append(createRestaurantHTML(restaurant));
   });
@@ -140,6 +139,7 @@ createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
   const image = document.createElement('img');
   image.className = 'restaurant-img';
+  image.setAttribute('tabindex', '0');
 
   // When the width is less than 400 or between 750 and 100px the images are small
   if (window.innerWidth <= 400 || (window.innerWidth > 750 && window.innerWidth <= 1000)) {

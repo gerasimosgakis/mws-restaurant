@@ -54,9 +54,11 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
+  address.setAttribute('tabindex', '0');
 
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img';
+  image.setAttribute('tabindex', '0');
 
   // If screen width is smaller than 400px the small photo is loaded
   if (window.innerWidth <= 400) {
