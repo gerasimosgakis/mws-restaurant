@@ -1,7 +1,6 @@
 (function() {
   'use strict';
 
-  console.log(navigator.serviceWorker.controller);
   // Register the service worker
   if (!navigator.serviceWorker) {
     console.log('Service worker not supported');
