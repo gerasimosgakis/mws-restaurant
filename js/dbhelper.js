@@ -22,7 +22,7 @@ class DBHelper {
       return;
     }
 
-    var dbPromise = idb.open('restaurants', 1, function(upgradeDB) {
+    let dbPromise = idb.open('restaurants', 1, function(upgradeDB) {
       switch (upgradeDB.oldVersion) {
         case 0:
           // a placeholder case so that the switch block will 
@@ -37,8 +37,8 @@ class DBHelper {
 
     //Add the restaurants
     dbPromise.then(function(db) {
-      var tx = db.transaction('restaurants', 'readwrite');
-      var store = tx.objectStore('restaurants');
+      let tx = db.transaction('restaurants', 'readwrite');
+      let store = tx.objectStore('restaurants');
 
       return Promise.all(restaurants.map(function(restaurant) {
         console.log('Adding restaurant: ', restaurant);
