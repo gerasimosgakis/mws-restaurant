@@ -1,6 +1,7 @@
 /**
  * Common database helper functions.
  */
+
 class DBHelper {
 
   /**
@@ -13,6 +14,47 @@ class DBHelper {
   }*/
 
   /**
+   * Create idexedDB and add the restaurants from the server
+   */
+  static addIndexedDb(restaurants) {
+    if (!('indexedDB' in window)) { //in case indexedDB is not supported we skip it
+      console.log('No browser support for IndexedDB');
+      return;
+    }
+
+    var dbPromise = idb.open('restaurants', 1, function(upgradeDB) {
+      switch (upgradeDB.oldVersion) {
+        case 0:
+          // a placeholder case so that the switch block will 
+          // execute when the database is first created
+          // (oldVersion is 0)
+        case 1:
+          // Create the restaurants object store
+          console.log('Creating the restaurants object store');
+          upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
+      }
+    });
+
+    //Add the restaurants
+    dbPromise.then(function(db) {
+      var tx = db.transaction('restaurants', 'readwrite');
+      var store = tx.objectStore('restaurants');
+
+      return Promise.all(restaurants.map(function(restaurant) {
+        console.log('Adding restaurant: ', restaurant);
+        return store.add(restaurant);
+      })
+      ).catch(function(error) {
+        tx.abort();
+        console.log(error);
+      }).then(function() {
+        console.log('All restaurants added successfully');
+      });
+    });
+  }
+  
+
+  /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
@@ -20,9 +62,10 @@ class DBHelper {
     xhr.open('GET', 'http://localhost:1337/restaurants/');
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        console.log(json);
-        const restaurants = json;
+        const restaurants = JSON.parse(xhr.responseText);
+        console.log(restaurants);
+        this.addIndexedDb(restaurants);
+        //this.addRestaurants(restaurants);
         callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
@@ -31,6 +74,8 @@ class DBHelper {
     };
     xhr.send();
   }
+
+  //console.log(restaurants);
 
   /**
    * Fetch a restaurant by its ID.
