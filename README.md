@@ -11,6 +11,7 @@ For the **Restaurant Reviews** projects, you will incrementally convert a static
 You have been provided the code for a restaurant reviews website. The code has a lot of issues. It’s barely usable on a desktop browser, much less a mobile device. It also doesn’t include any standard accessibility features, and it doesn’t work offline at all. Your job is to update the code to resolve these issues while still maintaining the included functionality. 
 
 ### IMPORTANT
+
 Please access the server [here](https://github.com/gerasimosgakis/mws-restaurant-stage-2) and follow the instructions to run it. Once the server is up and running you can follow the instructions below to run this app.
 
 ### What do I do from here?
