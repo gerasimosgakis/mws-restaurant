@@ -51,22 +51,31 @@ class DBHelper {
         console.log('All restaurants added successfully');
       });
     });
-  }
-  
 
-  /**
+    dbPromise.then(function(db) {
+      var tx = db.transaction('restaurants');
+      var store = tx.objectStore('restaurants');
+
+      return store.getAll();
+    }).then(function(restaurants) {
+      console.log('YEah!!!',restaurants);
+    });
+
+  }
+
+ /**
    * Fetch all restaurants.
    */
-  static fetchRestaurants(callback) {
+  static addRestaurants() {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', 'http://localhost:1337/restaurants/');
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
         const restaurants = JSON.parse(xhr.responseText);
-        console.log(restaurants);
+        console.log('json', restaurants);
         this.addIndexedDb(restaurants);
         //this.addRestaurants(restaurants);
-        callback(null, restaurants);
+        //callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
         callback(error, null);
@@ -74,6 +83,35 @@ class DBHelper {
     };
     xhr.send();
   }
+
+  static fetchRestaurants(callback) {
+    let dbPromise = idb.open('restaurants');
+    return dbPromise.then(function(db) {
+      var tx = db.transaction('restaurants');
+      var store = tx.objectStore('restaurants');
+
+      const restaurants = store.getAll();
+      //callback(null, restaurants);
+    }).then((res) => {
+      return res;
+    });
+  }
+  
+
+  /*static searchDB(callback) {
+    let dbPromise = idb.open('restaurants', 1, function(upgradeDB) {
+      switch (upgradeDB.oldVersion) {
+        case 0:
+          // a placeholder case so that the switch block will 
+          // execute when the database is first created
+          // (oldVersion is 0)
+        case 1:
+          // Create the restaurants object store
+          console.log('Creating the restaurants object store');
+          upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
+      }
+    });
+  }*/
 
   //console.log(restaurants);
 
