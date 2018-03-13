@@ -40,9 +40,9 @@ class DBHelper {
       let tx = db.transaction('restaurants', 'readwrite');
       let store = tx.objectStore('restaurants');
 
-      return Promise.all(restaurants.map(function(restaurant) {
+      Promise.all(restaurants.map(function(restaurant) {
         console.log('Adding restaurant: ', restaurant);
-        return store.add(restaurant);
+        store.add(restaurant);
       })
       ).catch(function(error) {
         tx.abort();
@@ -78,7 +78,7 @@ class DBHelper {
         //callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
+        //callback(error, null);
       }
     };
     xhr.send();

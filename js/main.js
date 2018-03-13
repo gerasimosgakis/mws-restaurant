@@ -9,8 +9,8 @@ var markers = [];
  */
 document.addEventListener('DOMContentLoaded', (event) => {
   DBHelper.addRestaurants();
-  fetchNeighborhoods();
-  fetchCuisines();
+  //fetchNeighborhoods();
+  //fetchCuisines();
 });
 
 /**
