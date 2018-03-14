@@ -40,7 +40,7 @@ class DBHelper {
       let tx = db.transaction('restaurants', 'readwrite');
       let store = tx.objectStore('restaurants');
 
-      Promise.all(restaurants.map(function(restaurant) {
+      return Promise.all(restaurants.map(function(restaurant) {
         console.log('Adding restaurant: ', restaurant);
         store.add(restaurant);
       })
@@ -50,15 +50,6 @@ class DBHelper {
       }).then(function() {
         console.log('All restaurants added successfully');
       });
-    });
-
-    dbPromise.then(function(db) {
-      var tx = db.transaction('restaurants');
-      var store = tx.objectStore('restaurants');
-
-      return store.getAll();
-    }).then(function(restaurants) {
-      console.log('YEah!!!',restaurants);
     });
 
   }
@@ -91,7 +82,7 @@ class DBHelper {
       var store = tx.objectStore('restaurants');
 
       const restaurants = store.getAll();
-      //callback(null, restaurants);
+      callback(null, restaurants);
     }).then((res) => {
       return res;
     });
