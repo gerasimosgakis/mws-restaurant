@@ -62,30 +62,31 @@ class DBHelper {
     xhr.open('GET', 'http://localhost:1337/restaurants/');
     xhr.onload = () => {
       if (xhr.status === 200) { // Got a success response from server!
-        const restaurants = JSON.parse(xhr.responseText);
-        console.log('json', restaurants);
+        const json = JSON.parse(xhr.responseText);
+        console.log('JSON FROM SERVER', json);
+        const restaurants = json;
         this.addIndexedDb(restaurants);
-        //this.addRestaurants(restaurants);
-        //callback(null, restaurants);
       } else { // Oops!. Got an error from server.
         const error = (`Request failed. Returned status of ${xhr.status}`);
-        //callback(error, null);
+        console.log(error);
       }
     };
     xhr.send();
   }
 
   static fetchRestaurants(callback) {
-    let dbPromise = idb.open('restaurants');
-    return dbPromise.then(function(db) {
-      var tx = db.transaction('restaurants');
-      var store = tx.objectStore('restaurants');
-
-      const restaurants = store.getAll();
-      callback(null, restaurants);
-    }).then((res) => {
-      return res;
+    let dbPromise = idb.open('restaurants', 1, function() {
     });
+
+  dbPromise.then(db => {
+    var tx = db.transaction('restaurants', 'readonly');
+    var store = tx.objectStore('restaurants');
+    return store.getAll();
+    }).then(val => {
+        console.log('Hi', val);
+        const restaurants = val;
+        callback(null, restaurants);
+    })
   }
   
 
