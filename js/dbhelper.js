@@ -77,33 +77,15 @@ class DBHelper {
 
   static fetchRestaurants(callback) {
     DBHelper.openDatabase().then(db => {
-    var tx = db.transaction('restaurants', 'readonly');
-    var store = tx.objectStore('restaurants');
-    return store.getAll();
-    }).then(val => {
-        console.log('Hi', val);
-        const restaurants = val;
-        callback(null, restaurants);
+      var tx = db.transaction('restaurants', 'readonly');
+      var store = tx.objectStore('restaurants');
+      return store.getAll();
+      }).then(val => {
+          console.log('Hi', val);
+          const restaurants = val;
+          callback(null, restaurants);
     })
   }
-  
-
-  /*static searchDB(callback) {
-    let dbPromise = idb.open('restaurants', 1, function(upgradeDB) {
-      switch (upgradeDB.oldVersion) {
-        case 0:
-          // a placeholder case so that the switch block will 
-          // execute when the database is first created
-          // (oldVersion is 0)
-        case 1:
-          // Create the restaurants object store
-          console.log('Creating the restaurants object store');
-          upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
-      }
-    });
-  }*/
-
-  //console.log(restaurants);
 
   /**
    * Fetch a restaurant by its ID.
