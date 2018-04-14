@@ -13,16 +13,13 @@ class DBHelper {
     return `http://localhost:${port}/data/restaurants.json`;
   }*/
 
-  /**
-   * Create idexedDB and add the restaurants from the server
-   */
-  static addIndexedDb(restaurants) {
+  static openDatabase() {
     if (!('indexedDB' in window)) { //in case indexedDB is not supported we skip it
       console.log('No browser support for IndexedDB');
       return;
     }
 
-    let dbPromise = idb.open('restaurants', 1, function(upgradeDB) {
+    return idb.open('restaurants', 1, function(upgradeDB) {
       switch (upgradeDB.oldVersion) {
         case 0:
           // a placeholder case so that the switch block will 
@@ -34,9 +31,14 @@ class DBHelper {
           upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
       }
     });
+  }
 
+  /**
+   * Create idexedDB and add the restaurants from the server
+   */
+  static addIndexedDb(restaurants) {
     //Add the restaurants
-    dbPromise.then(function(db) {
+    DBHelper.openDatabase().then(function(db) {
       let tx = db.transaction('restaurants', 'readwrite');
       let store = tx.objectStore('restaurants');
 
@@ -53,7 +55,6 @@ class DBHelper {
     });
 
   }
-
  /**
    * Fetch all restaurants.
    */
@@ -75,10 +76,7 @@ class DBHelper {
   }
 
   static fetchRestaurants(callback) {
-    let dbPromise = idb.open('restaurants', 1, function() {
-    });
-
-  dbPromise.then(db => {
+    DBHelper.openDatabase().then(db => {
     var tx = db.transaction('restaurants', 'readonly');
     var store = tx.objectStore('restaurants');
     return store.getAll();
