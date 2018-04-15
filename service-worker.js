@@ -45,7 +45,6 @@
     'img/8-1600_large.jpg',
     'img/9-1600_large.jpg',
     'img/10-1600_large.jpg',
-    'data/restaurants.json',
     'manifest.json'
   ];
 
