@@ -58,21 +58,42 @@ class DBHelper {
  /**
    * Fetch all restaurants.
    */
+  // static addRestaurants() {
+  //   let xhr = new XMLHttpRequest();
+  //   xhr.open('GET', 'http://localhost:1337/restaurants/');
+  //   xhr.onload = () => {
+  //     if (xhr.status === 200) { // Got a success response from server!
+  //       const json = JSON.parse(xhr.responseText);
+  //       console.log('JSON FROM SERVER', json);
+  //       const restaurants = json;
+  //       this.addIndexedDb(restaurants);
+  //     } else { // Oops!. Got an error from server.
+  //       const error = (`Request failed. Returned status of ${xhr.status}`);
+  //       console.log(error);
+  //     }
+  //   };
+  //   xhr.send();
+  // }
+
+ /**
+   * Fetch all restaurants.
+   */
   static addRestaurants() {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', 'http://localhost:1337/restaurants/');
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        console.log('JSON FROM SERVER', json);
-        const restaurants = json;
-        this.addIndexedDb(restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        console.log(error);
-      }
-    };
-    xhr.send();
+    return fetch('http://localhost:1337/restaurants/')
+      .then(response => {
+        if (response.status === 200) { // Got a success response from server!
+          response.json().then(data => {
+            const restaurants = data;
+            this.addIndexedDb(restaurants);
+          });
+        } else { // Oops!. Got an error from server.
+          const error = (`Request failed. Returned status of ${response.status}`);
+          console.log(error);
+        }
+      })
+      .catch(err => {
+        console.log('Fetch Error:', err)
+      });
   }
 
   static fetchRestaurants(callback) {

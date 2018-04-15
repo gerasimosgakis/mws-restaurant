@@ -8,9 +8,11 @@ var markers = [];
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener('DOMContentLoaded', (event) => {
-  DBHelper.addRestaurants();
-  fetchNeighborhoods();
-  fetchCuisines();
+  DBHelper.addRestaurants().then(() => {
+    fetchNeighborhoods();
+    fetchCuisines();
+  });
+  
 });
 
 /**
