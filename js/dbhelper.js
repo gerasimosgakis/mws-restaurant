@@ -19,7 +19,7 @@ class DBHelper {
       return;
     }
 
-    return idb.open('restaurants', 1, function(upgradeDB) {
+    return idb.open('restaurants', 2, function(upgradeDB) {
       switch (upgradeDB.oldVersion) {
         case 0:
           // a placeholder case so that the switch block will 
@@ -29,6 +29,10 @@ class DBHelper {
           // Create the restaurants object store
           console.log('Creating the restaurants object store');
           upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
+        case 2:
+          console.log('Creating a name index');
+          let store = upgradeDB.transaction.objectStore('restaurants');
+          store.createIndex('neighborhood', 'neighborhood');
       }
     });
   }
