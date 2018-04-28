@@ -19,14 +19,24 @@ document.addEventListener('DOMContentLoaded', (event) => {
  * Fetch all neighborhoods and set their HTML.
  */
 fetchNeighborhoods = () => {
-  DBHelper.fetchNeighborhoods((error, neighborhoods) => {
-    if (error) { // Got an error
-      console.error(error);
-    } else {
-      self.neighborhoods = neighborhoods;
-      fillNeighborhoodsHTML();
-    }
-  });
+  DBHelper.openDatabase().then(db => {
+    var tx = db.transaction('restaurants', 'readonly');
+    var store = tx.objectStore('restaurants');
+    return store.getAll();
+    }).then(rests => {
+        let neighArr = [];
+        Promise.all( rests.map(rest => {
+          if (neighArr.indexOf(rest.neighborhood) < 0) {
+            neighArr.push(rest.neighborhood);
+          } 
+        })
+      )
+      return neighArr;
+  }).then(neighborhoods => {
+    console.log('neigh', neighborhoods);
+    self.neighborhoods = neighborhoods;
+    fillNeighborhoodsHTML();
+  })
 }
 
 /**
@@ -42,18 +52,28 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
   });
 }
 
-/**
+/**￼￼￼￼￼￼
  * Fetch all cuisines and set their HTML.
  */
 fetchCuisines = () => {
-  DBHelper.fetchCuisines((error, cuisines) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      self.cuisines = cuisines;
-      fillCuisinesHTML();
-    }
-  });
+  DBHelper.openDatabase().then(db => {
+    var tx = db.transaction('restaurants', 'readonly');
+    var store = tx.objectStore('restaurants');
+    return store.getAll();
+    }).then(rests => {
+        let cuisineArr = [];
+        Promise.all( rests.map(rest => {
+          if (cuisineArr.indexOf(rest.cuisine_type) < 0) {
+            cuisineArr.push(rest.cuisine_type);
+          } 
+        })
+      )
+      return cuisineArr;
+  }).then(cuisines => {
+    console.log(cuisines);
+    self.cuisines = cuisines;
+    fillCuisinesHTML();
+  })
 }
 
 /**
@@ -98,15 +118,38 @@ updateRestaurants = () => {
 
   const cuisine = cSelect[cIndex].value;
   const neighborhood = nSelect[nIndex].value;
-
-  DBHelper.fetchRestaurantByCuisineAndNeighborhood(cuisine, neighborhood, (error, restaurants) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      resetRestaurants(restaurants);
+  const selectedRestArr = [];
+  DBHelper.openDatabase().then(db => {
+    var tx = db.transaction('restaurants', 'readonly');
+    var store = tx.objectStore('restaurants');
+    //let index = store.index('neighborhood');
+    return store.openCursor();
+    }).then(function showSelected(cursor) {
+      if (!cursor) return; 
+      console.log(cursor.value.cuisine_type);
+      console.log(neighborhood);
+      if (neighborhood === 'all' && cuisine === 'all') {
+        selectedRestArr.push(cursor.value);
+      }
+      else if (neighborhood === 'all') {
+        if (cursor.value.cuisine_type === cuisine) {
+          selectedRestArr.push(cursor.value);
+        }
+      }
+      else if (cuisine === 'all') {
+        if (cursor.value.neighborhood === neighborhood) {
+          selectedRestArr.push(cursor.value);
+        }
+      }
+      else if (cursor.value.neighborhood === neighborhood && cursor.value.cuisine_type === cuisine) {
+        selectedRestArr.push(cursor.value);
+      }
+      return cursor.continue().then(showSelected);
+    }).then(() => {
+      console.log('selArr', selectedRestArr);
+      resetRestaurants(selectedRestArr);
       fillRestaurantsHTML();
-    }
-  })
+    })
 }
 
 /**
