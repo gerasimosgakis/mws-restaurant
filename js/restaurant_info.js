@@ -34,15 +34,6 @@ fetchRestaurantFromURL = (callback) => {
     error = 'No restaurant id in URL';
     callback(error, null);
   } else {
-    // DBHelper.fetchRestaurantById(id, (error, restaurant) => {
-    //   self.restaurant = restaurant;
-    //   if (!restaurant) {
-    //     console.error(error);
-    //     return;
-    //   }
-    //   fillRestaurantHTML();
-    //   callback(null, restaurant);
-    // });
     DBHelper.openDatabase().then(db => {
       var tx = db.transaction('restaurants', 'readonly');
       var store = tx.objectStore('restaurants');
