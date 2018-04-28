@@ -19,14 +19,33 @@ document.addEventListener('DOMContentLoaded', (event) => {
  * Fetch all neighborhoods and set their HTML.
  */
 fetchNeighborhoods = () => {
-  DBHelper.fetchNeighborhoods((error, neighborhoods) => {
-    if (error) { // Got an error
-      console.error(error);
-    } else {
-      self.neighborhoods = neighborhoods;
-      fillNeighborhoodsHTML();
-    }
-  });
+  // DBHelper.fetchNeighborhoods((error, neighborhoods) => {
+  //   if (error) { // Got an error
+  //     console.error(error);
+  //   } else {
+  //     self.neighborhoods = neighborhoods;
+  //     console.log('nei', self.neighborhoods);
+  //     fillNeighborhoodsHTML();
+  //   }
+  // });
+  DBHelper.openDatabase().then(db => {
+    var tx = db.transaction('restaurants', 'readonly');
+    var store = tx.objectStore('restaurants');
+    return store.getAll();
+    }).then(rests => {
+        let neighArr = [];
+        Promise.all( rests.map(rest => {
+          if (neighArr.indexOf(rest.neighborhood) < 0) {
+            neighArr.push(rest.neighborhood);
+          } 
+        })
+      )
+      return neighArr;
+  }).then(neighborhoods => {
+    console.log(neighborhoods);
+    self.neighborhoods = neighborhoods;
+    fillNeighborhoodsHTML();
+  })
 }
 
 /**
@@ -46,14 +65,34 @@ fillNeighborhoodsHTML = (neighborhoods = self.neighborhoods) => {
  * Fetch all cuisines and set their HTML.
  */
 fetchCuisines = () => {
-  DBHelper.fetchCuisines((error, cuisines) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      self.cuisines = cuisines;
-      fillCuisinesHTML();
-    }
-  });
+  // DBHelper.fetchCuisines((error, cuisines) => {
+  //   if (error) { // Got an error!
+  //     console.error(error);
+  //   } else {
+  //     self.cuisines = cuisines;
+  //     fillCuisinesHTML();
+  //   }
+  // });
+
+  DBHelper.openDatabase().then(db => {
+    var tx = db.transaction('restaurants', 'readonly');
+    var store = tx.objectStore('restaurants');
+    return store.getAll();
+    }).then(rests => {
+        let cuisineArr = [];
+        Promise.all( rests.map(rest => {
+          if (cuisineArr.indexOf(rest.cuisine_type) < 0) {
+            cuisineArr.push(rest.cuisine_type);
+          } 
+        })
+      )
+      return cuisineArr;
+  }).then(cuisines => {
+    console.log(cuisines);
+    self.cuisines = cuisines;
+    fillNeighborhoodsHTML();
+    fillCuisinesHTML();
+  })
 }
 
 /**
