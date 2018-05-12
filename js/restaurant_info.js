@@ -1,5 +1,6 @@
 let restaurant;
 var map;
+const reviewButton = document.getElementById('reviewButton');
 
 /**
  * Initialize Google map, called from HTML.
