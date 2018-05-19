@@ -117,6 +117,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  * Create all reviews HTML and add them to the webpage.
  */
 fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+  console.log(reviews);
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.setAttribute('tabindex', '0');
@@ -193,4 +194,11 @@ getParameterByName = (name, url) => {
     return '';
   }
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+/**
+ * Open review form page with id parameter = current restaurant.
+ */
+openPage = function() {
+  location.href = "/reviewForm.html?id="+getParameterByName('id');
 }
