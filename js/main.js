@@ -12,7 +12,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
     fetchNeighborhoods();
     fetchCuisines();
   });
-  
+  DBHelper.addReviews().then(() => {
+    console.log('reviews added');
+  });
 });
 
 /**

@@ -426,6 +426,15 @@ nav h1 a {
   color: #666;
 }
 
+form i {
+  color: grey;
+  cursor: pointer;
+}
+
+.star-checked {
+  color: orange;
+}
+
 /* Media rule for screens wider than 450px */
 @media screen and (min-width: 450px) {
   .reviews-list li p:first-child {

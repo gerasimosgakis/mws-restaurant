@@ -33,6 +33,13 @@ class DBHelper {
           console.log('Creating a name index');
           let store = upgradeDB.transaction.objectStore('restaurants');
           store.createIndex('name', 'name');
+        case 3:
+          console.log('Creating the reviews object store');
+          upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
+        case 4:
+          console.log('Creating a restaurant id index');
+          let reviewsStore = upgradeDB.transaction.objectStore('reviews');
+          reviewsStore.createIndex('restaurant_id', 'restaurant_id');
       }
     });
   }
@@ -40,21 +47,21 @@ class DBHelper {
   /**
    * Create idexedDB and add the restaurants from the server
    */
-  static addIndexedDb(restaurants) {
+  static addIndexedDb(type, items) {
     //Add the restaurants
     DBHelper.openDatabase().then(function(db) {
-      let tx = db.transaction('restaurants', 'readwrite');
-      let store = tx.objectStore('restaurants');
+      let tx = db.transaction(type, 'readwrite');
+      let store = tx.objectStore(type);
 
-      return Promise.all(restaurants.map(function(restaurant) {
-        console.log('Adding restaurant: ', restaurant);
-        store.add(restaurant);
+      return Promise.all(items.map(function(item) {
+        console.log('Adding item: ', item);
+        store.add(item);
       })
       ).catch(function(error) {
         tx.abort();
         console.log(error);
       }).then(function() {
-        console.log('All restaurants added successfully');
+        console.log('All items added successfully');
       });
     });
 
@@ -88,7 +95,28 @@ class DBHelper {
         if (response.status === 200) { // Got a success response from server!
           response.json().then(data => {
             const restaurants = data;
-            this.addIndexedDb(restaurants);
+            this.addIndexedDb('restaurants', restaurants);
+          });
+        } else { // Oops!. Got an error from server.
+          const error = (`Request failed. Returned status of ${response.status}`);
+          console.log(error);
+        }
+      })
+      .catch(err => {
+        console.log('Fetch Error:', err)
+      });
+  }
+
+  /**
+   * Fetch all reviews.
+   */
+  static addReviews() {
+    return fetch('http://localhost:1337/reviews/')
+      .then(response => {
+        if (response.status === 200) { // Got a success response from server!
+          response.json().then(data => {
+            const reviews = data;
+            this.addIndexedDb('reviews', reviews);
           });
         } else { // Oops!. Got an error from server.
           const error = (`Request failed. Returned status of ${response.status}`);

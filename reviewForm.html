@@ -40,15 +40,24 @@
   <script src="js/reviewForm.js"></script>
   <!-- Service worker set up -->
   <script charset="utf-8" src="js/indexController.js"></script>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
   <!-- End scripts -->
 
 
   <form>
     Name:<br>
     <input id="name" type="text" value="" name="name"><br><br>
+    Rating:<br>
+    <i type="button" id="star1" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
+    <i type="button" id="star2" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
+    <i type="button" id="star3" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
+    <i type="button" id="star4" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
+    <i type="button" id="star5" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
+    <br>
     Review:<br>
     <textarea id="comment" type="text" name="comment" value=""></textarea><br><br>
     <input id="submit" type="submit" value="Submit" onClick="reviewSubmit()">
+
   </form>
 
 </body>
