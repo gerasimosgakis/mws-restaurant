@@ -1,5 +1,6 @@
 const submitButton = document.getElementById('submit')
 const rating = 0;
+
 /**
  * Get a parameter by name from page URL.
  */
@@ -30,13 +31,15 @@ function reviewSubmit() {
             "name": document.getElementById('name').value,
             "createdAt": new Date(),
             "updatedAt": new Date(),
-            "rating": this.rating,
+            "rating": this.rating || 0,
             "comments": document.getElementById('comment').value
         })
     })
     .then((data) => {
-        window.confirm("sometext");
-        console.log('Request succeeded with JSON response', data);
+        //window.confirm("sometext");
+        //console.log('Request succeeded with JSON response', data);
+        navigator.serviceWorker.controller.postMessage({action: 'formSubmitted'});
+        console.log(navigator.serviceWorker);
     })
     .catch(function (error) {
         console.log('Request failed', error);
@@ -101,3 +104,4 @@ function select() {
             }
     }
 }
+

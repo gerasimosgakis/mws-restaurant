@@ -107,4 +107,19 @@
     );
   });
 
+  let submit = false;
+
+  self.addEventListener('message', (event) => {
+    if (event.data.action == 'formSubmitted') {
+      submit = true;
+      console.log(submit);
+    }
+  })
+
+  self.addEventListener('sync', event => {
+    if (event.tag == 'myFirstSync') {
+      event.waitUntil(submit === true);
+    }
+  })
+
 })();

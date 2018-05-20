@@ -13,4 +13,8 @@
   .catch(function(error) {
     console.log('Registration failed:', error);
   });
+
+  navigator.serviceWorker.ready.then(swRegistration => {
+    return swRegistration.sync.register('myFirstSync');
+  });
 })();

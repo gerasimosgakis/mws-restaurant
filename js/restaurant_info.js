@@ -1,6 +1,17 @@
 let restaurant;
+let reviews = [];
 var map;
 const reviewButton = document.getElementById('reviewButton');
+
+window.onload = () => {
+  fetchReviewsFromURL((error, reviews) => {
+    if (error) { // Got an error!
+      console.error(error);
+    } else {
+      console.log('hi');
+    }
+  });
+}
 
 /**
  * Initialize Google map, called from HTML.
@@ -52,6 +63,49 @@ fetchRestaurantFromURL = (callback) => {
 }
 
 /**
+ * Get current reviews from page URL.
+ */
+fetchReviewsFromURL = (callback) => {
+  if (self.reviews) { // restaurant already fetched!
+    callback(null, self.reviews);
+    return;
+  }
+  const id = getParameterByName('id');
+  console.log(id);
+  if (!id) { // no id found in URL
+    error = 'No restaurant id in URL';
+    callback(error, null);
+  } else {
+    DBHelper.openDatabase().then(db => {
+      var tx = db.transaction('reviews', 'readonly');
+      var store = tx.objectStore('reviews');
+      var index = store.index('restaurant_id');
+      return index.openCursor()  //get(parseInt(id));
+      }).then(function show(cursor) {
+        if(!cursor) {return;}
+        if (cursor.key === parseInt(id)) {
+          reviews.push(cursor.value);
+        }
+        return cursor.continue().then(show)
+      }).then(() => {
+        console.log(reviews);
+        fillReviewsHTML();
+        callback(null, reviews);
+      })
+      
+      // .then(reviews => {
+      //   self.reviews = reviews;
+      //   if (!reviews) {
+      //     console.error(error);
+      //     return;
+      //   }
+      //   fillReviewsHTML();
+      //   callback(null, reviews);
+      // })
+  }
+}
+
+/**
  * Create restaurant HTML and add it to the webpage
  */
 fillRestaurantHTML = (restaurant = self.restaurant) => {
@@ -89,7 +143,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  fillReviewsHTML();
+  //fillReviewsHTML();
 }
 
 /**
@@ -116,8 +170,8 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
-  console.log(reviews);
+fillReviewsHTML = () => {
+  console.log('hi', reviews);
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.setAttribute('tabindex', '0');
@@ -149,7 +203,15 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  /* Convert date to a nice format */
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+  ];
+  var niceDate = new Date(review.updatedAt);
+  var theyear = niceDate.getFullYear();
+  var themonth = monthNames[niceDate.getMonth()];
+  var thetoday = niceDate.getDate();
+  date.innerHTML = thetoday + ' ' + themonth + ', ' + theyear;
   date.setAttribute('tabindex', '0');
   li.appendChild(date);
 
