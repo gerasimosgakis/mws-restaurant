@@ -262,5 +262,5 @@ getParameterByName = (name, url) => {
  * Open review form page with id parameter = current restaurant.
  */
 openPage = function() {
-  location.href = "/reviewForm.html?id="+getParameterByName('id');
+  location.href = "/reviewForm.html?id="+getParameterByName('id')+"#?name="+self.restaurant.name;
 }

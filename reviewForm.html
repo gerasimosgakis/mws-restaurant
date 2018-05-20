@@ -30,7 +30,42 @@
 </head>
 
 <body>
-  
+  <!-- Beginning header -->
+  <header>
+    <!-- Beginning nav -->
+    <nav>
+      <h1><a href="/">Restaurant Reviews</a></h1>
+    </nav>
+    <!-- Beginning breadcrumb -->
+    <ul id ="breadcrumb" class="breadcrumb" aria-label="Breadcrumb" role="navigation" >
+      <li><a href="/">Home</a></li>
+    </ul>
+    <!-- End breadcrumb -->
+    <!-- End nav -->
+  </header>
+  <!-- End header -->
+  <!-- Beginning main -->
+  <main id="maincontent">
+    <!-- Beginning form -->
+    <section class="form-container" id="form-container">
+      <form>
+        Name:<br>
+        <input id="name" type="text" value="" name="name"><br><br>
+        Rating:<br>
+        <i type="button" id="star1" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
+        <i type="button" id="star2" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
+        <i type="button" id="star3" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
+        <i type="button" id="star4" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
+        <i type="button" id="star5" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
+        <br><br>
+        Review:<br>
+        <textarea id="comment" type="text" rows="8" cols="55" name="comment" value=""></textarea><br><br>
+        <button id="submit" type="submit" onClick="reviewSubmit()">Submit</button>
+      </form>
+    </section>
+    <!-- End form -->
+  </main>
+  <!-- End main -->
   <!-- Beginning scripts -->
   <!-- idb library -->
   <script type="text/javascript" src="js/idb.js"></script>
@@ -42,24 +77,12 @@
   <script charset="utf-8" src="js/indexController.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
   <!-- End scripts -->
-
-
-  <form>
-    Name:<br>
-    <input id="name" type="text" value="" name="name"><br><br>
-    Rating:<br>
-    <i type="button" id="star1" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
-    <i type="button" id="star2" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
-    <i type="button" id="star3" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
-    <i type="button" id="star4" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
-    <i type="button" id="star5" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
-    <br>
-    Review:<br>
-    <textarea id="comment" type="text" name="comment" value=""></textarea><br><br>
-    <input id="submit" type="submit" value="Submit" onClick="reviewSubmit()">
-
-  </form>
-
+  
+<!-- Beginning footer -->
+<footer id="footer">
+  Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+</footer>
+<!-- End footer -->
 </body>
 
 </html>

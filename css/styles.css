@@ -33,8 +33,13 @@ p {
   line-height: 1.5;
 }
 
+html {
+  height: 100%;
+}
+
 body {
-  background-color: #fdfdfd;
+  min-height: 100%;
+  background-color: #f3f3f3;
   margin: 0;
   position: relative;
 }
@@ -434,6 +439,42 @@ form i {
 .star-checked {
   color: orange;
 }
+
+.form-container {
+  padding: 20px 100px 10px 100px;
+  font-size: 23px;
+}
+
+form input {
+  line-height: 2;
+  font-size: 18px;
+  border-radius: 10px;
+  width: 365px;
+  padding-left: 10px;
+}
+
+form textarea {
+  border-radius: 10px;
+  font-size: 18px;
+  padding-left: 10px;
+}
+
+form button {
+  width: 200px;
+  height: 40px;
+  font-size: 12pt;
+  background-color: #a46a00;
+  color: white;
+}
+
+footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+}
+
 
 /* Media rule for screens wider than 450px */
 @media screen and (min-width: 450px) {

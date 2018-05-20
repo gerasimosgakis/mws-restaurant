@@ -1,6 +1,10 @@
 const submitButton = document.getElementById('submit')
 const rating = 0;
 
+window.onload = () => {
+    fillBreadcrumb();
+}
+
 /**
  * Get a parameter by name from page URL.
  */
@@ -103,5 +107,19 @@ function select() {
                 document.getElementById('star'+i).className = 'fa fa-star';
             }
     }
+}
+
+/**
+ * Add restaurant name to the breadcrumb navigation menu
+ */
+fillBreadcrumb = () => {
+    const breadcrumb = document.getElementById('breadcrumb');
+    const a = document.createElement('a');
+    a.innerHTML = getParameterByName('name');
+    a.setAttribute('href', '/restaurant.html?id='+getParameterByName('id'));
+    const li = document.createElement('li');
+    li.appendChild(a);
+    li.setAttribute('tabindex', '0');
+    breadcrumb.appendChild(li);
 }
 
