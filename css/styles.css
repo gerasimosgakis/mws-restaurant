@@ -440,29 +440,38 @@ form i {
   color: orange;
 }
 
-.form-container {
+/* .form-container {
   padding: 20px 100px 10px 100px;
   font-size: 23px;
+} */
+
+.form-container {
+  padding: 5px 5px 5px 5px;
 }
 
 form input {
   line-height: 2;
-  font-size: 18px;
   border-radius: 10px;
-  width: 365px;
-  padding-left: 10px;
+  /* width: 365px;
+  padding-left: 10px; */
+  width: 95%;
+  padding-left: 5px;
 }
 
 form textarea {
   border-radius: 10px;
-  font-size: 18px;
   padding-left: 10px;
+  width: 95%;
+}
+
+.button-container {
+  text-align: center;
 }
 
 form button {
   width: 200px;
   height: 40px;
-  font-size: 12pt;
+  font-size: 14pt;
   background-color: #a46a00;
   color: white;
 }
@@ -480,6 +489,24 @@ footer {
 @media screen and (min-width: 450px) {
   .reviews-list li p:first-child {
     font-size: 18pt;
+  }
+
+  form {
+    font-size: 14pt;
+  }
+
+  form input, form textarea {
+    font-size: 12pt;
+    padding-left: 10px;
+  }
+
+  .form-container {
+    padding: 20px 20px 10px 20px;
+    font-size: 23px;
+  }
+
+  form button {
+    width: 250px;
   }
 
   .reviews-list li p:nth-child(2) {
@@ -509,6 +536,23 @@ footer {
   .reviews-list li p:nth-child(4) {
     font-size: 14pt;
   }
+
+  form input, form textarea {
+    line-height: 2;
+    border-radius: 10px;
+    /* width: 365px;
+    padding-left: 10px; */
+    /* width: 85%; */
+    padding-left: 5px;
+  }
+
+  .form-container {
+    font-size: 23px;
+  }
+
+  form button {
+    width: 250px;
+  }
 }
 
 /* Media rule for screens smaller than 750px */
@@ -528,7 +572,31 @@ footer {
 
 	.restaurants-list li {
 		width: calc(50% - 50px);
-	}
+  }
+  
+  form input, form textarea {
+    line-height: 2;
+    border-radius: 10px;
+    width: 365px;
+    padding-left: 10px;
+  }
+
+  form textarea {
+    width: 600px;
+  }
+
+  .form-container {
+    padding: 20px 100px 10px 100px;
+    font-size: 23px;
+  }
+
+  .button-container {
+    text-align: left;
+  }
+
+  form button {
+    width: 250px;
+  }
 }
 
 /* Media rule for screens wider than 950px */

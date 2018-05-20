@@ -50,7 +50,7 @@
     <section class="form-container" id="form-container">
       <form>
         Name:<br>
-        <input id="name" type="text" value="" name="name"><br><br>
+        <input id="name" type="text" value="" name="name" placeholder="Your name" required><br><br>
         Rating:<br>
         <i type="button" id="star1" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
         <i type="button" id="star2" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
@@ -59,8 +59,8 @@
         <i type="button" id="star5" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
         <br><br>
         Review:<br>
-        <textarea id="comment" type="text" rows="8" cols="55" name="comment" value=""></textarea><br><br>
-        <button id="submit" type="submit" onClick="reviewSubmit()">Submit</button>
+        <textarea id="comment" type="text" rows="8" cols="55" name="comment" placeholder="Please write your review here" value=""></textarea><br><br>
+        <div class="button-container"><button id="submit" type="submit" onClick="reviewSubmit()">Submit</button></div>
       </form>
     </section>
     <!-- End form -->
@@ -77,7 +77,7 @@
   <script charset="utf-8" src="js/indexController.js"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
   <!-- End scripts -->
-  
+
 <!-- Beginning footer -->
 <footer id="footer">
   Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
