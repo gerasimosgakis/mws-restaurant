@@ -9,6 +9,7 @@
     '.',
     'https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300',
     'https://fonts.gstatic.com/s/opensanscondensed/v12/z7NFdQDnbTkabZAIOl9il_O6KJj73e7Ff1GhDuXMR7eS2Ao.woff2',
+    'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
     'index.html',
     'restaurant.html',
     'reviewForm.html',

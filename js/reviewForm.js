@@ -1,6 +1,5 @@
 const submitButton = document.getElementById('submit')
 const rating = 0;
-
 window.onload = () => {
     fillBreadcrumb();
 }
@@ -40,10 +39,15 @@ function reviewSubmit() {
         })
     })
     .then((data) => {
-        //window.confirm("sometext");
+        // window.confirm("sometext");
         //console.log('Request succeeded with JSON response', data);
         navigator.serviceWorker.controller.postMessage({action: 'formSubmitted'});
         console.log(navigator.serviceWorker);
+    })
+    .then(() => {
+        window.location.href = '/restaurant.html?id='+getParameterByName('id');
+    //     //modal.style.display = "block";
+    //     window.location.href = '/restaurant.html?id='+getParameterByName('id');
     })
     .catch(function (error) {
         console.log('Request failed', error);
@@ -123,3 +127,23 @@ fillBreadcrumb = () => {
     breadcrumb.appendChild(li);
 }
 
+// Modal
+
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+}
+
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}

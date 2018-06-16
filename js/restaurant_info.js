@@ -2,7 +2,6 @@ let restaurant;
 let reviews = [];
 var map;
 const reviewButton = document.getElementById('reviewButton');
-
 window.onload = () => {
   fetchReviewsFromURL((error, reviews) => {
     if (error) { // Got an error!
