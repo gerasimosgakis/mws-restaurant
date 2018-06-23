@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#317EFB"/>
+  <!-- Normalize.css for better cross-browser consistency -->
+  <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
+  <!-- Google font Open-sans -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300" rel="stylesheet">
+  <!-- Main CSS file -->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="manifest" href="/manifest.json">
+  <title>Restaurant Reviews</title>
+</head>
+
+<body>
+  <!-- Beginning Header -->
+  <header>
+    <nav>
+      <h1><a href="/">Restaurant Reviews</a></h1>
+    </nav>
+  </header>
+  <!-- End Header -->
+
+  <!-- Beginning main -->
+  <main>
+    <a href="#filter-options" class="skip-map">Skip the map</a>
+    <!-- Beginning map -->
+    <section>
+      <div id="map" tabindex="0" aria-role="application" aria-label="map"></div>
+    </section>
+    <!-- End map -->
+    <!-- Beginning filter -->
+    <section aria-label="filter">
+      <div id="filter-options" class="filter-options" tabindex="-1">
+        <h2>Filter Results</h2>
+        <select name="neighborhoods" id="neighborhoods-select" aria-label="Select neighborhood" onchange="updateRestaurants()">
+          <option value="all">All neighborhoods</option>
+        </select>
+        <select name="cuisines" id="cuisines-select" aria-label="Select cuisine" onchange="updateRestaurants()">
+          <option value="all">All cuisines</option>
+        </select>
+      </div>
+      <ul class="restaurants-list" id="restaurants-list"></ul>
+    </section>
+    <!-- End filter -->
+  </main>
+  <!-- End main -->
+
+  <!-- Beginning scripts -->
+  <!-- idb library -->
+  <script type="text/javascript" src="js/idb.js"></script>
+  <!-- Database helpers -->
+  <script charset="utf-8" src="js/dbhelper.js"></script>
+  <!-- Main javascript file -->
+  <script charset="utf-8" src="js/main.js"></script>
+  <!-- Service worker set up -->
+  <script charset="utf-8" src="js/indexController.js"></script>
+  <!-- Google Maps -->
+  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBt5JL5BQWKC3p5FTNrNddAF8fNzPxo0wM&libraries=places&callback=initMap"></script>
+  <!-- End scripts -->
+
+  <footer id="footer">
+    Copyright (c) 2017 <a href="/"><strong>Restaurant Reviews</strong></a> All Rights Reserved.
+  </footer>
+
+</body>
+
+</html>
