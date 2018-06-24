@@ -119,11 +119,11 @@
     }
   })
 
-  self.addEventListener('sync', event => {
-    if (event.tag == 'myFirstSync') {
-      event.waitUntil(prom());
-    }
-  })
+  // self.addEventListener('sync', event => {
+  //   if (event.tag == 'myFirstSync') {
+  //     event.waitUntil(prom());
+  //   }
+  // })
 
   // self.addEventListener('periodicsync', function(event) {
   //   if (event.registration.tag == 'get-latest-news') {
@@ -137,9 +137,9 @@
 
 })();
 
-const prom = new Promise((resolve) => {
-  if (navigator.onLine) {
-    console.log('YAYYYYYYYYYYYYYY');
-    resolve;
-  }
-});
+// const prom = new Promise((resolve) => {
+//   if (navigator.onLine) {
+//     console.log('YAYYYYYYYYYYYYYY');
+//     resolve;
+//   }
+// });

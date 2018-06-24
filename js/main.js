@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     fetchCuisines();
   });
   DBHelper.addReviews().then(() => {
-    console.log('reviews added');
+    console.log('first reviews added');
   });
 });
 
@@ -35,7 +35,6 @@ fetchNeighborhoods = () => {
       )
       return neighArr;
   }).then(neighborhoods => {
-    console.log('neigh', neighborhoods);
     self.neighborhoods = neighborhoods;
     fillNeighborhoodsHTML();
   })
@@ -72,7 +71,6 @@ fetchCuisines = () => {
       )
       return cuisineArr;
   }).then(cuisines => {
-    console.log(cuisines);
     self.cuisines = cuisines;
     fillCuisinesHTML();
   })
@@ -128,8 +126,6 @@ updateRestaurants = () => {
     return store.openCursor();
     }).then(function showSelected(cursor) {
       if (!cursor) return; 
-      console.log(cursor.value.cuisine_type);
-      console.log(neighborhood);
       if (neighborhood === 'all' && cuisine === 'all') {
         selectedRestArr.push(cursor.value);
       }
@@ -148,7 +144,6 @@ updateRestaurants = () => {
       }
       return cursor.continue().then(showSelected);
     }).then(() => {
-      console.log('selArr', selectedRestArr);
       resetRestaurants(selectedRestArr);
       fillRestaurantsHTML();
     })

@@ -54,7 +54,6 @@ class DBHelper {
       let store = tx.objectStore(type);
 
       return Promise.all(items.map(function(item) {
-        console.log('Adding item: ', item);
         store.add(item);
       })
       ).catch(function(error) {
@@ -111,11 +110,13 @@ class DBHelper {
    * Fetch all reviews.
    */
   static addReviews() {
+    console.log('ADD REVIEWS');
     return fetch('http://localhost:1337/reviews/')
       .then(response => {
         if (response.status === 200) { // Got a success response from server!
           response.json().then(data => {
             const reviews = data;
+            console.log('rev2', reviews);
             this.addIndexedDb('reviews', reviews);
           });
         } else { // Oops!. Got an error from server.

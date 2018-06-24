@@ -2,14 +2,39 @@ let restaurant;
 let reviews = [];
 var map;
 const reviewButton = document.getElementById('reviewButton');
+
+document.addEventListener('DOMContentLoaded', (event) => {
+  // DBHelper.addReviews().then(() => {
+  //   console.log('reviews added');
+    fetchReviewsFromURL((error, reviews) => {
+      if (error) { // Got an error!
+        console.error(error);
+      } else {
+        console.log('revvvvv', reviews);
+      }
+    });
+  // });
+  
+});
+
 window.onload = () => {
-  fetchReviewsFromURL((error, reviews) => {
-    if (error) { // Got an error!
-      console.error(error);
-    } else {
-      console.log('hi');
-    }
-  });
+  // fetchReviewsFromURL((error, reviews) => {
+  //   if (error) { // Got an error!
+  //     console.error(error);
+  //   } else {
+  //     console.log('revvvvv', reviews);
+  //   }
+  // });
+  // DBHelper.addReviews().then(() => {
+  //   console.log('reviews added');
+  //   fetchReviewsFromURL((error, reviews) => {
+  //     if (error) { // Got an error!
+  //       console.error(error);
+  //     } else {
+  //       console.log('revvvvv', reviews);
+  //     }
+  //   });
+  // });
 }
 
 /**
@@ -40,7 +65,6 @@ fetchRestaurantFromURL = (callback) => {
     return;
   }
   const id = getParameterByName('id');
-  console.log(id);
   if (!id) { // no id found in URL
     error = 'No restaurant id in URL';
     callback(error, null);
@@ -70,12 +94,12 @@ fetchReviewsFromURL = (callback) => {
     return;
   }
   const id = getParameterByName('id');
-  console.log(id);
   if (!id) { // no id found in URL
     error = 'No restaurant id in URL';
     callback(error, null);
   } else {
     DBHelper.openDatabase().then(db => {
+      console.log('here');
       var tx = db.transaction('reviews', 'readonly');
       var store = tx.objectStore('reviews');
       var index = store.index('restaurant_id');
@@ -87,7 +111,6 @@ fetchReviewsFromURL = (callback) => {
         }
         return cursor.continue().then(show)
       }).then(() => {
-        console.log(reviews);
         fillReviewsHTML();
         callback(null, reviews);
       })
@@ -170,7 +193,6 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
  * Create all reviews HTML and add them to the webpage.
  */
 fillReviewsHTML = () => {
-  console.log('hi', reviews);
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.setAttribute('tabindex', '0');

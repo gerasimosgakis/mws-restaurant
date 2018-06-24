@@ -40,12 +40,16 @@ function reviewSubmit() {
     })
     .then((data) => {
         // window.confirm("sometext");
-        //console.log('Request succeeded with JSON response', data);
+        console.log('Request succeeded with JSON response', data);
+        
         navigator.serviceWorker.controller.postMessage({action: 'formSubmitted'});
         console.log(navigator.serviceWorker);
     })
     .then(() => {
         window.location.href = '/restaurant.html?id='+getParameterByName('id');
+        DBHelper.addReviews().then(() => {
+            console.log('now called reviews');
+        });
     //     //modal.style.display = "block";
     //     window.location.href = '/restaurant.html?id='+getParameterByName('id');
     })
