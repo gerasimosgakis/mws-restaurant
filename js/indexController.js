@@ -14,7 +14,8 @@
     console.log('Registration failed:', error);
   });
 
-  navigator.serviceWorker.ready.then(swRegistration => {
-    return swRegistration.sync.register('myFirstSync');
-  });
+  // navigator.serviceWorker.ready.then(swRegistration => {
+  //   return swRegistration.sync.register('myFirstSync');
+  // });
+
 })();

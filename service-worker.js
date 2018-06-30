@@ -110,20 +110,17 @@
     );
   });
 
-  let submit = false;
+  // let submit = false;
 
   self.addEventListener('message', (event) => {
-    if (event.data.action == 'formSubmitted') {
-      submit = true;
-      console.log(submit);
-    }
+      console.log('submit123');
   })
 
-  self.addEventListener('sync', event => {
-    if (event.tag == 'myFirstSync') {
-      event.waitUntil(prom());
-    }
-  })
+  // self.addEventListener('sync', event => {
+  //   if (event.tag == 'myFirstSync') {
+  //     event.waitUntil(prom());
+  //   }
+  // })
 
   // self.addEventListener('periodicsync', function(event) {
   //   if (event.registration.tag == 'get-latest-news') {
@@ -137,9 +134,9 @@
 
 })();
 
-const prom = new Promise((resolve) => {
-  if (navigator.onLine) {
-    console.log('YAYYYYYYYYYYYYYY');
-    resolve;
-  }
-});
+// const prom = new Promise((resolve) => {
+//   if (navigator.onLine) {
+//     console.log('YAYYYYYYYYYYYYYY');
+//     resolve;
+//   }
+// });

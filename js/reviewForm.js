@@ -38,16 +38,22 @@ function reviewSubmit() {
             "comments": document.getElementById('comment').value
         })
     })
-    .then((data) => {
-        // window.confirm("sometext");
-        //console.log('Request succeeded with JSON response', data);
-        navigator.serviceWorker.controller.postMessage({action: 'formSubmitted'});
-        console.log(navigator.serviceWorker);
+    .then(function(response) {
+        navigator.serviceWorker.controller.postMessage('test');
+        console.log('RRRRESPONSE');
+        return response.json();
+      }).then(function(data) {
+          console.log('DATA', data);
+        DBHelper.openDatabase().then(function(db) {
+            // let tx = db.transaction('reviews', 'readwrite');
+            // let store = tx.objectStore('reviews');
+            // store.add(data);
+            console.log('there you go');
+          })
     })
-    .then(() => {
+      .then(() => {
+          console.log('redirect!!!');
         window.location.href = '/restaurant.html?id='+getParameterByName('id');
-    //     //modal.style.display = "block";
-    //     window.location.href = '/restaurant.html?id='+getParameterByName('id');
     })
     .catch(function (error) {
         console.log('Request failed', error);
