@@ -50,7 +50,7 @@
   <main id="maincontent">
     <!-- Beginning form -->
     <section class="form-container" id="form-container">
-      <form onsubmit="reviewSubmit()">
+      <form>
         Name:<br>
         <input id="name" type="text" value="" name="name" placeholder="Your name" required><br><br>
         Rating:<br>
@@ -62,7 +62,7 @@
         <br><br>
         Review:<br>
         <textarea id="comment" type="text" rows="8" cols="55" name="comment" placeholder="Please write your review here" value=""></textarea><br><br>
-        <div class="button-container"><button id="submit" type="submit">Submit</button></div>
+        <div class="button-container"><button id="submit" type="submit" onclick="reviewSubmit()">Submit</button></div>
       </form>
     </section>
     <!-- End form -->

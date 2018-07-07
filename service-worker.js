@@ -112,18 +112,41 @@
 
   let submit = false;
 
-  self.addEventListener('message', (event) => {
-    if (event.data.action == 'formSubmitted') {
-      submit = true;
-      console.log(submit);
+  // self.addEventListener('message', (event) => {
+  //   //if (event.data.action == 'formSubmitted') {
+  //     //submit = true;
+  //     console.log(event.data.action);
+  //     DBHelper.openDatabase().then(function(db) {
+  //       let tx = db.transaction('reviews', 'readwrite');
+  //       let store = tx.objectStore('reviews');
+  //       store.add(event.data.action);
+  //       console.log('UKUKHIUKHKU');
+  //   })
+  //  // }
+  // })
+
+  var promise1 = new Promise((resolve, reject) => {
+    if (navigator.onLine) {
+      console.log('online');
+      resolve('Resolveing');
+    } else {
+      console.log('offline');
+      reject('Rejecting');
+    }
+  });
+
+  self.addEventListener('sync', event => {
+    if (event.tag == 'myFirstSync') {
+      // DBHelper.openDatabase().then(function(db) {
+      //         let tx = db.transaction('reviews', 'readwrite');
+      //         let store = tx.objectStore('reviews');
+      //         store.add(event.data.action);
+      //         console.log('UKUKHIUKHKU');
+      //     })
+      event.waitUntil(promise1);
+      console.log('IN FIRST SYNC');
     }
   })
-
-  // self.addEventListener('sync', event => {
-  //   if (event.tag == 'myFirstSync') {
-  //     event.waitUntil(prom());
-  //   }
-  // })
 
   // self.addEventListener('periodicsync', function(event) {
   //   if (event.registration.tag == 'get-latest-news') {

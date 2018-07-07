@@ -62,8 +62,6 @@ function reviewSubmit() {
     //     });
     // }
 
-
-
     fetch('http://localhost:1337/reviews/', {
         headers: {
                     'Content-Type': 'application/json',
@@ -107,6 +105,7 @@ function reviewSubmit() {
     })
     .then((dataJSON) => {
         console.log('DATA', dataJSON);
+        navigator.serviceWorker.controller.postMessage({action: dataJSON});
         DBHelper.openDatabase().then(function(db) {
             let tx = db.transaction('reviews', 'readwrite');
             let store = tx.objectStore('reviews');
@@ -129,6 +128,22 @@ function reviewSubmit() {
     // })
     .catch(function (error) {
         console.log('Request failed', error);
+        const tempObj = {
+            "restaurant_id": parseInt(getParameterByName('id')),
+            "name": document.getElementById('name').value,
+            "createdAt": new Date(),
+            "updatedAt": new Date(),
+            "rating": this.rating || 0,
+            "comments": document.getElementById('comment').value
+        };
+        console.log(tempObj);
+        DBHelper.openDatabase().then(function(db) {
+            let tx = db.transaction('reviews', 'readwrite');
+            let store = tx.objectStore('reviews');
+            store.add(tempObj);
+            console.log('UKUKHIUKHKU');
+        })
+        window.location.href = "/restaurant.html?id="+parseInt(getParameterByName('id'));
     });
 }
 
