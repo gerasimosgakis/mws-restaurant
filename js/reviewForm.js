@@ -1,6 +1,11 @@
 const submitButton = document.getElementById('submit')
 const rating = 0;
+let id = 0;
 window.onload = () => {
+    if (id == 0) {
+        id = getParameterByName('id');
+    }
+    console.log(id);
     fillBreadcrumb();
 }
 
@@ -24,35 +29,74 @@ getParameterByName = (name, url) => {
   }
 
 function reviewSubmit() {
-    fetch('http://localhost:1337/reviews', {
+    //console.log('ID', id);
+    // const myRequest = new Request('http://localhost:1337/reviews', {
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     method: 'POST',
+    //     body: JSON.stringify({
+    //         "restaurant_id": parseInt(getParameterByName('id')),
+    //         "name": document.getElementById('name').value,
+    //         "createdAt": new Date(),
+    //         "updatedAt": new Date(),
+    //         "rating": this.rating || 0,
+    //         "comments": document.getElementById('comment').value
+    //     })
+    // });
+    fetch('http://localhost:1337/reviews/', {
         headers: {
-            'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify({
-            "restaurant_id": parseInt(getParameterByName('id')),
-            "name": document.getElementById('name').value,
-            "createdAt": new Date(),
-            "updatedAt": new Date(),
-            "rating": this.rating || 0,
-            "comments": document.getElementById('comment').value
-        })
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                method: 'POST',
+                body: JSON.stringify({
+                    "restaurant_id": parseInt(getParameterByName('id')),
+                    "name": document.getElementById('name').value,
+                    "createdAt": new Date(),
+                    "updatedAt": new Date(),
+                    "rating": this.rating || 0,
+                    "comments": document.getElementById('comment').value
+                })
     })
-    .then((data) => {
+    //fetch(myRequest)
+    .then(function(response) {
+        //return data.json();
+        //console.log('SUBMITTED');
+        // console.log('DATA', data.json());
+        DBHelper.openDatabase().then(function(db) {
+            let tx = db.transaction('reviews', 'readwrite');
+            let store = tx.objectStore('reviews');
+            store.add(data);
+            console.log('UKUKHIUKHKU');
+            // return Promise.all(
+            //     store.add(data)
+            // ).catch(function(error) {
+            //   tx.abort();
+            //   console.log(error);
+            // }).then(function() {
+            //   console.log('All items added successfully');
+            // });
+          });
         // window.confirm("sometext");
         console.log('Request succeeded with JSON response', data);
         
-        navigator.serviceWorker.controller.postMessage({action: 'formSubmitted'});
+        //navigator.serviceWorker.controller.postMessage({action: 'formSubmitted'});
         console.log(navigator.serviceWorker);
+        return response.json();
     })
-    .then(() => {
-        window.location.href = '/restaurant.html?id='+getParameterByName('id');
-        DBHelper.addReviews().then(() => {
-            console.log('now called reviews');
-        });
-    //     //modal.style.display = "block";
-    //     window.location.href = '/restaurant.html?id='+getParameterByName('id');
+    .then((dataJSON) => {
+        console.log('DATA', dataJSON);
     })
+    // .then((res) => {
+    //     //window.location.href = "/restaurant.html?id="+parseInt(getParameterByName('id'));
+    //     console.log(res);
+    //     DBHelper.addReviews().then(() => {
+    //         console.log('now called reviews');
+    //     });
+    // //     //modal.style.display = "block";
+    // //     window.location.href = '/restaurant.html?id='+getParameterByName('id');
+    // })
     .catch(function (error) {
         console.log('Request failed', error);
     });

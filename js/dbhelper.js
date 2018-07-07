@@ -19,7 +19,7 @@ class DBHelper {
       return;
     }
 
-    return idb.open('restaurants', 2, function(upgradeDB) {
+    return idb.open('restaurants', 5, function(upgradeDB) {
       switch (upgradeDB.oldVersion) {
         case 0:
           // a placeholder case so that the switch block will 
