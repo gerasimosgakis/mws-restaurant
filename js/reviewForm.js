@@ -29,21 +29,41 @@ getParameterByName = (name, url) => {
   }
 
 function reviewSubmit() {
-    //console.log('ID', id);
-    // const myRequest = new Request('http://localhost:1337/reviews', {
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     },
-    //     method: 'POST',
-    //     body: JSON.stringify({
-    //         "restaurant_id": parseInt(getParameterByName('id')),
-    //         "name": document.getElementById('name').value,
-    //         "createdAt": new Date(),
-    //         "updatedAt": new Date(),
-    //         "rating": this.rating || 0,
-    //         "comments": document.getElementById('comment').value
+    console.log('IN Review submit');
+
+    // function reviewSubmit() {
+    //     fetch('http://localhost:1337/reviews', {
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         method: 'POST',
+    //         body: JSON.stringify({
+    //             "restaurant_id": parseInt(getParameterByName('id')),
+    //             "name": document.getElementById('name').value,
+    //             "createdAt": new Date(),
+    //             "updatedAt": new Date(),
+    //             "rating": this.rating || 0,
+    //             "comments": document.getElementById('comment').value
+    //         })
     //     })
-    // });
+    //     .then((data) => {
+    //         // window.confirm("sometext");
+    //         //console.log('Request succeeded with JSON response', data);
+    //         navigator.serviceWorker.controller.postMessage({action: 'formSubmitted'});
+    //         console.log(navigator.serviceWorker);
+    //     })
+    //     .then(() => {
+    //         window.location.href = '/restaurant.html?id='+getParameterByName('id');
+    //     //     //modal.style.display = "block";
+    //     //     window.location.href = '/restaurant.html?id='+getParameterByName('id');
+    //     })
+    //     .catch(function (error) {
+    //         console.log('Request failed', error);
+    //     });
+    // }
+
+
+
     fetch('http://localhost:1337/reviews/', {
         headers: {
                     'Content-Type': 'application/json',
@@ -64,11 +84,11 @@ function reviewSubmit() {
         //return data.json();
         //console.log('SUBMITTED');
         // console.log('DATA', data.json());
-        DBHelper.openDatabase().then(function(db) {
-            let tx = db.transaction('reviews', 'readwrite');
-            let store = tx.objectStore('reviews');
-            store.add(data);
-            console.log('UKUKHIUKHKU');
+        // DBHelper.openDatabase().then(function(db) {
+        //     let tx = db.transaction('reviews', 'readwrite');
+        //     let store = tx.objectStore('reviews');
+        //     store.add(data);
+        //     console.log('UKUKHIUKHKU');
             // return Promise.all(
             //     store.add(data)
             // ).catch(function(error) {
@@ -77,9 +97,9 @@ function reviewSubmit() {
             // }).then(function() {
             //   console.log('All items added successfully');
             // });
-          });
+          //});
         // window.confirm("sometext");
-        console.log('Request succeeded with JSON response', data);
+        console.log('Request succeeded with JSON response', response);
         
         //navigator.serviceWorker.controller.postMessage({action: 'formSubmitted'});
         console.log(navigator.serviceWorker);
@@ -87,6 +107,16 @@ function reviewSubmit() {
     })
     .then((dataJSON) => {
         console.log('DATA', dataJSON);
+        DBHelper.openDatabase().then(function(db) {
+            let tx = db.transaction('reviews', 'readwrite');
+            let store = tx.objectStore('reviews');
+            store.add(dataJSON);
+            console.log('UKUKHIUKHKU');
+        })
+    })
+    .then(() => {
+        console.log('redirect');
+        window.location.href = "/restaurant.html?id="+parseInt(getParameterByName('id'));
     })
     // .then((res) => {
     //     //window.location.href = "/restaurant.html?id="+parseInt(getParameterByName('id'));

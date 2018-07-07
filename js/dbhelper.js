@@ -14,6 +14,7 @@ class DBHelper {
   }*/
 
   static openDatabase() {
+    console.log('IN OPEN DATABASE');
     if (!('indexedDB' in window)) { //in case indexedDB is not supported we skip it
       console.log('No browser support for IndexedDB');
       return;
