@@ -199,6 +199,18 @@ createRestaurantHTML = (restaurant) => {
   name.setAttribute('tabindex', '0');
   li.append(name);
 
+  const favorite = document.createElement('span');
+  favorite.innerHTML = '❤';
+  favorite.classList.add('favorite-button');
+  favorite.onclick = function() {
+    const isFavorite = !restaurant.is_favorite;
+    DBHelper.updateFavorite(restaurant.id, isFavorite);
+    restaurant.is_favorite = !restaurant.is_favorite
+    toggleFavorite(favorite, restaurant.is_favorite)
+  };
+  toggleFavorite(favorite, restaurant.is_favorite);
+  li.append(favorite);
+
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
   neighborhood.setAttribute('tabindex', '0');
@@ -215,6 +227,16 @@ createRestaurantHTML = (restaurant) => {
   li.append(more);
 
   return li;
+}
+
+function toggleFavorite(el, isFav) {
+  if (isFav) {
+    el.classList.add('red-heart');
+    el.setAttribute('aria-label', 'unmark favorite');
+  } else {
+    el.classList.remove('red-heart');
+    el.setAttribute('aria-label', 'mark as favorite');
+  }
 }
 
 /**

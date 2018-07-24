@@ -1,23 +1,18 @@
 self.importScripts('js/idb.js');
 // variable with the name for the cache
-let staticCacheName = 'pages-cache-v1';
+// let staticCacheName = 'pages-cache-v1';
 
-const dbPromise = idb.open("restaurants", 3, upgradeDB => {
-  switch (upgradeDB.oldVersion) {
-    case 0:
-      upgradeDB.createObjectStore("restaurants", {keyPath: "id"});
-    case 1:
-      {
-        const reviewsStore = upgradeDB.createObjectStore("reviews", {keyPath: "id"});
-        reviewsStore.createIndex("restaurant_id", "restaurant_id");
-      }
-    case 2:
-      upgradeDB.createObjectStore("pending", {
-        keyPath: "id",
-        autoIncrement: true
-      });
-  }
-});
+// const dbPromise = idb.open("restaurants", 2, upgradeDB => {
+//   switch (upgradeDB.oldVersion) {
+//     case 0:
+//       upgradeDB.createObjectStore("restaurants", {keyPath: "id"});
+//     case 1:
+//       {
+//         const reviewsStore = upgradeDB.createObjectStore("reviews", {keyPath: "id"});
+//         reviewsStore.createIndex("restaurant_id", "restaurant_id");
+//       }
+//   }
+// });
 
 // An array with all the assets we want to cache in first visit
 var urlsToCache = [
@@ -27,11 +22,9 @@ var urlsToCache = [
   'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
   'index.html',
   'restaurant.html',
-  'reviewForm.html',
   'css/styles.css',
   'js/main.js',
   'js/restaurant_info.js',
-  'js/reviewForm.js',
   'js/dbhelper.js',
   'img/1-400_small.jpg',
   'img/2-400_small.jpg',

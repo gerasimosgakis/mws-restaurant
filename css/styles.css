@@ -524,6 +524,21 @@ footer {
   cursor: pointer;
 }
 
+.favorite-button {
+  font-size: 38px;
+  color: #504f4f;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.red-heart {
+  color: red;
+}
+
+.offline-label {
+  background: red;
+}
+
 /* Media rule for screens wider than 450px */
 @media screen and (min-width: 450px) {
   .reviews-list li p:first-child {
