@@ -3,7 +3,6 @@
  */
 
 class DBHelper {
-
   /**
    * Database URL.
    * Change this to restaurants.json file location on your server.
@@ -20,27 +19,20 @@ class DBHelper {
       return;
     }
 
-    return idb.open('restaurants', 5, function(upgradeDB) {
+    return idb.open("restaurants", 3, upgradeDB => {
       switch (upgradeDB.oldVersion) {
         case 0:
-          // a placeholder case so that the switch block will 
-          // execute when the database is first created
-          // (oldVersion is 0)
+          upgradeDB.createObjectStore("restaurants", {keyPath: "id"});
         case 1:
-          // Create the restaurants object store
-          console.log('Creating the restaurants object store');
-          upgradeDB.createObjectStore('restaurants', {keyPath: 'id'});
+          {
+            const reviewsStore = upgradeDB.createObjectStore("reviews", {keyPath: "id"});
+            reviewsStore.createIndex("restaurant_id", "restaurant_id");
+          }
         case 2:
-          console.log('Creating a name index');
-          let store = upgradeDB.transaction.objectStore('restaurants');
-          store.createIndex('name', 'name');
-        case 3:
-          console.log('Creating the reviews object store');
-          upgradeDB.createObjectStore('reviews', {keyPath: 'id'});
-        case 4:
-          console.log('Creating a restaurant id index');
-          let reviewsStore = upgradeDB.transaction.objectStore('reviews');
-          reviewsStore.createIndex('restaurant_id', 'restaurant_id');
+          upgradeDB.createObjectStore("pending", {
+            keyPath: "id",
+            autoIncrement: true
+          });
       }
     });
   }
@@ -289,4 +281,73 @@ class DBHelper {
     return marker;
   }
 
+  static saveReview(id, name, rating, comment, callback) {
+    // Block any more clicks on the submit button until the callback
+    const btn = document.getElementById("submit");
+    btn.onclick = null;
+
+    // Create the POST body
+    const body = {
+      restaurant_id: id,
+      name: name,
+      rating: rating,
+      comments: comment,
+      createdAt: Date.now()
+    }
+
+    DBHelper.saveNewReview(id, body, (error, result) => {
+      if (error) {
+        callback(error, null);
+        return;
+      }
+      callback(null, result);
+    })
+  }
+
+  static saveNewReview(id, bodyObj, callback) {
+    // Push the request into the waiting queue in IDB
+    const url = `${DBHelper.DATABASE_REVIEWS_URL}`;
+    const method = "POST";
+    DBHelper.updateCachedRestaurantReview(id, bodyObj);
+    DBHelper.addPendingRequestToQueue(url, method, bodyObj);
+    callback(null, null);
+  }
+
+  static updateCachedRestaurantReview(id, bodyObj) {
+    console.log("updating cache for new review: ", bodyObj);
+    // Push the review into the reviews store
+    dbPromise.then(db => {
+      const tx = db.transaction("reviews", "readwrite");
+      const store = tx.objectStore("reviews");
+      console.log("putting cached review into store");
+      store.put({
+        id: Date.now(),
+        "restaurant_id": id,
+        data: bodyObj
+      });
+      console.log("successfully put cached review into store");
+      return tx.complete;
+    })
+  }
+
+  static addPendingRequestToQueue(url, method, body) {
+    // Open the database ad add the request details to the pending table
+    const dbPromise = idb.open("fm-udacity-restaurant");
+    dbPromise.then(db => {
+      const tx = db.transaction("pending", "readwrite");
+      tx
+        .objectStore("pending")
+        .put({
+          data: {
+            url,
+            method,
+            body
+          }
+        })
+    })
+      .catch(error => {})
+      // .then(DBHelper.nextPending());
+  }
+
 }
+
