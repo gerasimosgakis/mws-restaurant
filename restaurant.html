@@ -4,6 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.11.0/lazyload.min.js"></script>
   <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <!-- Google font Open-sans -->
@@ -44,26 +45,9 @@
       <section class="restaurant-info" id="restaurant-info">
         <p class="restaurant-address" id="restaurant-address"></p>
         <table class="restaurant-hours" id="restaurant-hours"></table>
-        <!-- <a onclick="alert(getID())" type="button" id="reviewButton1" href="/reviewForm.html?id=">Review</a> -->
-        <a href="javascript:openPage()" type="button" id="reviewButton1">Review</a>
       </section>
       <section class="form-container" id="form-container">
-        <!-- <form onsubmit="reviewSubmit()">
-          Name:<br>
-          <input id="name" type="text" value="" name="name" placeholder="Your name" required><br><br>
-          Rating:<br>
-          <i type="button" id="star1" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
-          <i type="button" id="star2" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
-          <i type="button" id="star3" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
-          <i type="button" id="star4" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
-          <i type="button" id="star5" class="fa fa-star" onclick="select()" aria-hidden="true"></i>
-          <br><br>
-          Review:<br>
-          <textarea id="comment" type="text" rows="8" cols="55" name="comment" placeholder="Please write your review here" value=""></textarea><br><br>
-          <div class="button-container"><button id="submit" type="submit" onclick="reviewSubmit()">Submit</button></div>
-        </form> -->
-
-        <form id="reviewForm" onsubmit="reviewSubmit()">
+        <form id="reviewForm">
           <label for="name">Name</label><br>
           <input id="name" type="text" value="" name="name" placeholder="Your name" required><br><br>
             <label>Rating:</label><br>
@@ -75,7 +59,7 @@
           <br><br>
           <label for=comment"">Review:</label><br>
           <textarea id="comment" type="text" rows="8" cols="55" name="comment" placeholder="Please write your review here" value=""></textarea><br><br>
-          <div class="button-container"><button id="submit" type="submit" onclick="reviewSubmit()">Submit</button></div>
+          <div class="button-container"><button id="submit" onclick="reviewSubmit()">Submit</button></div>
         </form>
       </section>
     </section>
@@ -90,14 +74,14 @@
 
 
   <!-- Beginning scripts -->
+  <!-- Service worker set up -->
+  <script src="js/swRegister.js"></script>
   <!-- idb library -->
-  <script type="text/javascript" src="js/idb.js"></script>
+  <script src="js/idb.js"></script>
   <!-- Database helpers -->
   <script src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
-  <script src="js/restaurant_info.js"></script>
-  <!-- Service worker set up -->
-  <script charset="utf-8" src="js/indexController.js"></script>
+  <script type="text/javascript" src="js/restaurant_info.js"></script>
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAgE6pzBw4HE2FUOLvsUftkO16iq7FL7vc&libraries=places&callback=initMap"></script>
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">

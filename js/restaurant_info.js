@@ -1,41 +1,6 @@
 let restaurant;
 let reviews = [];
 var map;
-const reviewButton = document.getElementById('reviewButton');
-
-document.addEventListener('DOMContentLoaded', (event) => {
-  // DBHelper.addReviews().then(() => {
-  //   console.log('reviews added');
-    fetchReviewsFromURL((error, reviews) => {
-      if (error) { // Got an error!
-        console.error(error);
-      } else {
-        console.log('revvvvv', reviews);
-      }
-    });
-  // });
-  
-});
-
-window.onload = () => {
-  // fetchReviewsFromURL((error, reviews) => {
-  //   if (error) { // Got an error!
-  //     console.error(error);
-  //   } else {
-  //     console.log('revvvvv', reviews);
-  //   }
-  // });
-  // DBHelper.addReviews().then(() => {
-  //   console.log('reviews added');
-  //   fetchReviewsFromURL((error, reviews) => {
-  //     if (error) { // Got an error!
-  //       console.error(error);
-  //     } else {
-  //       console.log('revvvvv', reviews);
-  //     }
-  //   });
-  // });
-}
 
 /**
  * Initialize Google map, called from HTML.
@@ -114,16 +79,6 @@ fetchReviewsFromURL = (callback) => {
         fillReviewsHTML();
         callback(null, reviews);
       })
-      
-      // .then(reviews => {
-      //   self.reviews = reviews;
-      //   if (!reviews) {
-      //     console.error(error);
-      //     return;
-      //   }
-      //   fillReviewsHTML();
-      //   callback(null, reviews);
-      // })
   }
 }
 
@@ -151,7 +106,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   else if (window.innerWidth > 400 && window.innerWidth <= 1600) {
     image.src = DBHelper.imageUrlForRestaurantMedium(restaurant);
   }
-  //other wise for really wide screens we load the large photo
+  //otherwise for really wide screens we load the large photo
   else {
     image.src = DBHelper.imageUrlForRestaurantLarge(restaurant);
   }
@@ -164,8 +119,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   if (restaurant.operating_hours) {
     fillRestaurantHoursHTML();
   }
-  // fill reviews
-  //fillReviewsHTML();
+      DBHelper.fetchReviewsById(restaurant.id)
+        .then(reviews => fillReviewsHTML(reviews));
 }
 
 /**
@@ -192,7 +147,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = () => {
+fillReviewsHTML = (reviews = self.restaurant.reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h3');
   title.setAttribute('tabindex', '0');
@@ -218,13 +173,6 @@ fillReviewsHTML = () => {
  */
 createReviewHTML = (review) => {
   const li = document.createElement('li');
-  if (!navigator.onLine) {
-    const isOnline = document.createElement('p');
-    isOnline.classList.add('offline-label');
-    isOnline.innerHTML = "Offline";
-    //li.classList.add('reviews-offline');
-    li.appendChild(isOnline);
-  }
   const name = document.createElement('p');
   name.setAttribute('tabindex', '0');
   name.innerHTML = review.name;
@@ -284,13 +232,6 @@ getParameterByName = (name, url) => {
     return '';
   }
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
-
-/**
- * Open review form page with id parameter = current restaurant.
- */
-openPage = function() {
-  location.href = "/reviewForm.html?id="+getParameterByName('id')+"#?name="+self.restaurant.name;
 }
 
 /**
@@ -356,12 +297,8 @@ function select() {
 }
 
 function reviewSubmit() {
+  console.log('submit');
   event.preventDefault();
-  // let restaurantId = getParameterByName('id');
-  // let name = document.getElementById('name').value;
-  // let rating = this.rating;
-  // let comments = document.getElementById('comment').value;
-  // const review = [name, rating,  comments, restaurantId];
 
   // Add to Html
   const showReview = {
@@ -374,127 +311,18 @@ function reviewSubmit() {
   }
 
   DBHelper.addReview(showReview);
-  createReviewHTML(showReview);
+  addReviewHTML(showReview);
   document.getElementById('reviewForm').reset();
-  // Get the data points for the review
-  // const name = document
-  // .getElementById("name")
-  // .value;
-  // const rating = this.ratingTemp;
-  // const comment = document
-  // .getElementById("comment")
-  // .value;
+}
 
-  // console.log("reviewName: ", name);
-  // console.log('RESTTT', self.restaurant);
-  // DBHelper.saveReview(id, name, rating, comment, (error, review) => {
-  //     console.log("got saveReview callback");
-  //     if (error) {
-  //         console.log("Error saving review")
-  //     }
-  //     // Update the button onclick event
-  //     const btn = document.getElementById("submit");
-  //     btn.onclick = event => saveReview();
+addReviewHTML = (review) => {
+  if (document.getElementById('no-review')) {
+      document.getElementById('no-review').remove();
+  }
+  const container = document.getElementById('reviews-container');
+  const ul = document.getElementById('reviews-list');
 
-  //     //window.location.href = "/restaurant.html?id=" + self.restaurant.id;
-  // });
-  // console.log('IN Review submit');
-
-      // fetch('http://localhost:1337/reviews', {
-      //     headers: {
-      //         'Content-Type': 'application/json',
-      //     },
-      //     method: 'POST',
-      //     body: JSON.stringify({
-      //         "restaurant_id": parseInt(getParameterByName('id')),
-      //         "name": document.getElementById('name').value,
-      //         "createdAt": new Date(),
-      //         "updatedAt": new Date(),
-      //         "rating": this.rating || 0,
-      //         "comments": document.getElementById('comment').value
-      //     })
-      // })
-      // .then((data) => {
-      //     // window.confirm("sometext");
-      //     //console.log('Request succeeded with JSON response', data);
-      //     navigator.serviceWorker.controller.postMessage({action: 'formSubmitted'});
-      //     console.log(navigator.serviceWorker);
-      // })
-      // .then(() => {
-      //     window.location.href = '/restaurant.html?id='+getParameterByName('id');
-      // //     //modal.style.display = "block";
-      // //     window.location.href = '/restaurant.html?id='+getParameterByName('id');
-      // })
-      // .catch(function (error) {
-      //     console.log('Request failed', error);
-      // });
-
-
-
-  // fetch('http://localhost:1337/reviews/', {
-  //     headers: {
-  //                 'Content-Type': 'application/json',
-  //                 'Accept': 'application/json'
-  //             },
-  //             method: 'POST',
-  //             body: JSON.stringify({
-  //                 "restaurant_id": parseInt(getParameterByName('id')),
-  //                 "name": document.getElementById('name').value,
-  //                 "createdAt": new Date(),
-  //                 "updatedAt": new Date(),
-  //                 "rating": this.rating || 0,
-  //                 "comments": document.getElementById('comment').value
-  //             })
-  // })
-  // //fetch(myRequest)
-  // .then(function(response) {
-  //     //return data.json();
-  //     //console.log('SUBMITTED');
-  //     // console.log('DATA', data.json());
-  //     // DBHelper.openDatabase().then(function(db) {
-  //     //     let tx = db.transaction('reviews', 'readwrite');
-  //     //     let store = tx.objectStore('reviews');
-  //     //     store.add(data);
-  //     //     console.log('UKUKHIUKHKU');
-  //         // return Promise.all(
-  //         //     store.add(data)
-  //         // ).catch(function(error) {
-  //         //   tx.abort();
-  //         //   console.log(error);
-  //         // }).then(function() {
-  //         //   console.log('All items added successfully');
-  //         // });
-  //       //});
-  //     // window.confirm("sometext");
-  //     console.log('Request succeeded with JSON response', response);
-      
-  //     //navigator.serviceWorker.controller.postMessage({action: 'formSubmitted'});
-  //     console.log(navigator.serviceWorker);
-  //     return response.json();
-  // })
-  // .then((dataJSON) => {
-  //     console.log('DATA', dataJSON);
-  //     DBHelper.openDatabase().then(function(db) {
-  //         let tx = db.transaction('reviews', 'readwrite');
-  //         let store = tx.objectStore('reviews');
-  //         store.add(dataJSON);
-  //         console.log('UKUKHIUKHKU');
-  //     })
-  // })
-  // .then(() => {
-  //     console.log('redirect');
-  //     window.location.href = "/restaurant.html?id="+parseInt(getParameterByName('id'));
-  // })
-  // // .then((res) => {
-  // //     //window.location.href = "/restaurant.html?id="+parseInt(getParameterByName('id'));
-  // //     console.log(res);
-  // //     DBHelper.addReviews().then(() => {
-  // //         console.log('now called reviews');
-  // //     });
-  // // //     //modal.style.display = "block";
-  // // //     window.location.href = '/restaurant.html?id='+getParameterByName('id');
-  // // })
-  // .catch(function (error) {
-  //     console.log('Request failed', error);
-  // });
+  //insert the new review on top
+  ul.appendChild(createReviewHTML(review), ul.firstChild);
+  container.appendChild(ul);
 }

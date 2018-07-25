@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#317EFB"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-lazyload/8.11.0/lazyload.min.js"></script>
   <!-- Normalize.css for better cross-browser consistency -->
   <link rel="stylesheet" src="//normalize-css.googlecode.com/svn/trunk/normalize.css" />
   <!-- Google font Open-sans -->
@@ -50,16 +51,21 @@
   <!-- End main -->
 
   <!-- Beginning scripts -->
+  <!-- Service worker set up -->
+  <script charset="utf-8" src="js/swRegister.js"></script>
   <!-- idb library -->
   <script type="text/javascript" src="js/idb.js"></script>
   <!-- Database helpers -->
   <script charset="utf-8" src="js/dbhelper.js"></script>
   <!-- Main javascript file -->
   <script charset="utf-8" src="js/main.js"></script>
-  <!-- Service worker set up -->
-  <script charset="utf-8" src="js/indexController.js"></script>
   <!-- Google Maps -->
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBt5JL5BQWKC3p5FTNrNddAF8fNzPxo0wM&libraries=places&callback=initMap"></script>
+  <script>
+    var myLazyLoad = new LazyLoad({
+      elements_selector: ".lazy"
+    });
+  </script>
   <!-- End scripts -->
 
   <footer id="footer">

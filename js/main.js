@@ -179,19 +179,51 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
+  console.log('REST', restaurant);
   const li = document.createElement('li');
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.setAttribute('tabindex', '0');
+  // image.className = 'restaurant-img';
+  // image.setAttribute('tabindex', '0');
 
   // When the width is less than 400 or between 750 and 100px the images are small
-  if (window.innerWidth <= 400 || (window.innerWidth > 750 && window.innerWidth <= 1000)) {
-    image.src = DBHelper.imageUrlForRestaurantSmall(restaurant);
-  }
-  else { //otherwise the images are medium
-    image.src = DBHelper.imageUrlForRestaurantMedium(restaurant);
-  }
+  // if (window.innerWidth <= 400 || (window.innerWidth > 750 && window.innerWidth <= 1000)) {
+  //   image.src = DBHelper.imageUrlForRestaurantSmall(restaurant);
+  // }
+  // else { //otherwise the images are medium
+  //   image.src = DBHelper.imageUrlForRestaurantMedium(restaurant);
+  // }
   image.alt = restaurant.name + " restaurant's cover photo";
+
+  const config = {
+    threshold: 0.1
+  };
+  let observer;
+  if ('IntersectionObserver' in window) {
+    observer = new IntersectionObserver(onChange, config);
+    observer.observe(image);
+  } else {
+    loadImage(image);
+  }
+  const loadImage = image => {
+    image.className = 'restaurant-img';
+    image.setAttribute('tabindex', '0');
+    if (window.innerWidth <= 400 || (window.innerWidth > 750 && window.innerWidth <= 1000)) {
+      image.src = DBHelper.imageUrlForRestaurantSmall(restaurant);
+    }
+    else { //otherwise the images are medium
+      image.src = DBHelper.imageUrlForRestaurantMedium(restaurant);
+    }
+  }
+
+  function onChange(changes, observer) {
+    changes.forEach(change => {
+      if (change.intersectionRatio > 0) {
+        loadImage(change.target);
+        observer.unobserve(change.target);
+      }
+    });
+  }
+
   li.append(image);
 
   const name = document.createElement('h3');

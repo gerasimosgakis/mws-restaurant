@@ -1,6 +1,7 @@
 self.importScripts('js/idb.js');
 // variable with the name for the cache
-// let staticCacheName = 'pages-cache-v1';
+let staticCacheName = 'pages-cache-v1';
+let live = 'live';
 
 // const dbPromise = idb.open("restaurants", 2, upgradeDB => {
 //   switch (upgradeDB.oldVersion) {
@@ -16,47 +17,49 @@ self.importScripts('js/idb.js');
 
 // An array with all the assets we want to cache in first visit
 var urlsToCache = [
-  '/',
-  'https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300',
-  'https://fonts.gstatic.com/s/opensanscondensed/v12/z7NFdQDnbTkabZAIOl9il_O6KJj73e7Ff1GhDuXMR7eS2Ao.woff2',
-  'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
+  // '/',
+  // 'https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300',
+  // 'https://fonts.gstatic.com/s/opensanscondensed/v12/z7NFdQDnbTkabZAIOl9il_O6KJj73e7Ff1GhDuXMR7eS2Ao.woff2',
+  // 'https://use.fontawesome.com/releases/v5.0.13/css/all.css',
   'index.html',
-  'restaurant.html',
+  //'restaurant.html',
   'css/styles.css',
   'js/main.js',
   'js/restaurant_info.js',
   'js/dbhelper.js',
-  'img/1-400_small.jpg',
-  'img/2-400_small.jpg',
-  'img/3-400_small.jpg',
-  'img/4-400_small.jpg',
-  'img/5-400_small.jpg',
-  'img/6-400_small.jpg',
-  'img/7-400_small.jpg',
-  'img/8-400_small.jpg',
-  'img/9-400_small.jpg',
-  'img/10-400_small.jpg',
-  'img/1-800_medium.jpg',
-  'img/2-800_medium.jpg',
-  'img/3-800_medium.jpg',
-  'img/4-800_medium.jpg',
-  'img/5-800_medium.jpg',
-  'img/6-800_medium.jpg',
-  'img/7-800_medium.jpg',
-  'img/8-800_medium.jpg',
-  'img/9-800_medium.jpg',
-  'img/10-800_medium.jpg',
-  'img/1-1600_large.jpg',
-  'img/2-1600_large.jpg',
-  'img/3-1600_large.jpg',
-  'img/4-1600_large.jpg',
-  'img/5-1600_large.jpg',
-  'img/6-1600_large.jpg',
-  'img/7-1600_large.jpg',
-  'img/8-1600_large.jpg',
-  'img/9-1600_large.jpg',
-  'img/10-1600_large.jpg',
-  'manifest.json'
+  'js/idb.js',
+  // 'js/swRegister.js',
+  // 'img/1-400_small.jpg',
+  // 'img/2-400_small.jpg',
+  // 'img/3-400_small.jpg',
+  // 'img/4-400_small.jpg',
+  // 'img/5-400_small.jpg',
+  // 'img/6-400_small.jpg',
+  // 'img/7-400_small.jpg',
+  // 'img/8-400_small.jpg',
+  // 'img/9-400_small.jpg',
+  // 'img/10-400_small.jpg',
+  // 'img/1-800_medium.jpg',
+  // 'img/2-800_medium.jpg',
+  // 'img/3-800_medium.jpg',
+  // 'img/4-800_medium.jpg',
+  // 'img/5-800_medium.jpg',
+  // 'img/6-800_medium.jpg',
+  // 'img/7-800_medium.jpg',
+  // 'img/8-800_medium.jpg',
+  // 'img/9-800_medium.jpg',
+  // 'img/10-800_medium.jpg',
+  // 'img/1-1600_large.jpg',
+  // 'img/2-1600_large.jpg',
+  // 'img/3-1600_large.jpg',
+  // 'img/4-1600_large.jpg',
+  // 'img/5-1600_large.jpg',
+  // 'img/6-1600_large.jpg',
+  // 'img/7-1600_large.jpg',
+  // 'img/8-1600_large.jpg',
+  // 'img/9-1600_large.jpg',
+  // 'img/10-1600_large.jpg',
+  // 'manifest.json'
 ];
 
 /**
@@ -69,6 +72,7 @@ self.addEventListener('install', function(event) {
     .then(function(cache) {
       return cache.addAll(urlsToCache);
     })
+    .then(self.skipWaiting())
   );
 });
 /**
@@ -216,48 +220,70 @@ self.addEventListener('install', function(event) {
 //     }));
 //   }));
 // };
-self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.match(event.request).then(function(response) {
-      if (response) {
-        return response;
-      }
-      return fetch(event.request).then(function(response) {
-        return caches.open(staticCacheName).then(function(cache) {
-          if (event.request.url.indexOf('restaurants') < 0) {
-            cache.put(event.request.url, response.clone());
-          }
-          return response;
-        });
-      });
-    }).catch(function(error) {
-      console.log('Error, ', error);
-    })
-  );
-});
-
-// /**
-//  * When new service worker is activated, if there is a new cache
-//  the old one is deleted
-//   */
-// self.addEventListener('activate', function(event) {
-//   console.log('Activating new service worker...');
-
-//   var cacheWhitelist = [staticCacheName];
-
-//   event.waitUntil(
-//     caches.keys().then(function(cacheNames) {
-//       return Promise.all(
-//         cacheNames.map(function(cacheName) {
-//           if (cacheWhitelist.indexOf(cacheName) === -1) {
-//             console.log('Delete CACHE');
-//             return caches.delete(cacheName);
+// self.addEventListener('fetch', function(event) {
+//   event.respondWith(
+//     caches.match(event.request).then(function(response) {
+//       if (response) {
+//         return response;
+//       }
+//       return fetch(event.request).then(function(response) {
+//         return caches.open(staticCacheName).then(function(cache) {
+//           if (event.request.url.indexOf('restaurants') < 0) {
+//             cache.put(event.request.url, response.clone());
 //           }
-//         })
-//       );
+//           return response;
+//         });
+//       });
+//     }).catch(function(error) {
+//       console.log('Error, ', error);
 //     })
 //   );
 // });
+
+self.addEventListener('fetch', event => {
+  const saveUrl = event.request.url.split(/[?#]/)[0];
+
+  if (saveUrl.startsWith(self.location.origin)) {
+    event.respondWith(
+      caches.match(saveUrl).then(cachedResponse => {
+        if (cachedResponse) {
+          return cachedResponse;
+        }
+
+        return caches.open(live).then(cache => {
+          return fetch(event.request).then(response => {
+            return cache.put(saveUrl, response.clone()).then(() => {
+              return response;
+            });
+          });
+        });
+      })
+    );
+  }
+});
+
+/**
+ * When new service worker is activated, if there is a new cache
+ the old one is deleted
+  */
+self.addEventListener('activate', function(event) {
+  console.log('Activating new service worker...');
+
+  var cacheWhitelist = [staticCacheName];
+
+  event.waitUntil(
+    caches.keys().then(function(cacheNames) {
+      return Promise.all(
+        cacheNames.map(function(cacheName) {
+          if (cacheWhitelist.indexOf(cacheName) === -1) {
+            console.log('Delete CACHE');
+            return caches.delete(cacheName);
+          }
+        })
+      );
+    })
+  );
+});
 
 // let submit = false;
 
