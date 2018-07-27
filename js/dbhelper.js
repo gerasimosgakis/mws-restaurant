@@ -205,15 +205,15 @@ class DBHelper {
   /* I created three different functions so depending
    the screen-width I will be calling them respectively*/
   static imageUrlForRestaurantSmall(restaurant) {
-    return (`/img/${restaurant.photograph}-400_small.jpg`);
+    return (`/img/${restaurant.id}-400_small.webp`);
   }
 
   static imageUrlForRestaurantMedium(restaurant) {
-    return (`/img/${restaurant.photograph}-800_medium.jpg`);
+    return (`/img/${restaurant.id}-800_medium.webp`);
   }
 
   static imageUrlForRestaurantLarge(restaurant) {
-    return (`/img/${restaurant.photograph}-1600_large.jpg`);
+    return (`/img/${restaurant.id}-1600_large.webp`);
   }
 
   /**

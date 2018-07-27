@@ -1,4 +1,4 @@
-self.importScripts('js/idb.js');
+//self.importScripts('js/idb.js');
 // variable with the name for the cache
 let staticCacheName = 'pages-cache-v1';
 let live = 'live';
