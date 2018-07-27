@@ -1,6 +1,6 @@
 {
   "name": "mws-restaurant",
-  "homepage": "gerasimosgakis.github.io/mws-restaurant/",
+  "homepage": "http://gerasimosgakis.github.io/mws-restaurant",
   "version": "0.1.0",
   "script:": {
     "start": "js/main.js"
