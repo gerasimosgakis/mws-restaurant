@@ -12,9 +12,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     fetchNeighborhoods();
     fetchCuisines();
   });
-  DBHelper.addReviews().then(() => {
-    console.log('first reviews added');
-  });
 });
 
 /**
@@ -179,19 +176,8 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
-  console.log('REST', restaurant);
   const li = document.createElement('li');
   const image = document.createElement('img');
-  // image.className = 'restaurant-img';
-  // image.setAttribute('tabindex', '0');
-
-  // When the width is less than 400 or between 750 and 100px the images are small
-  // if (window.innerWidth <= 400 || (window.innerWidth > 750 && window.innerWidth <= 1000)) {
-  //   image.src = DBHelper.imageUrlForRestaurantSmall(restaurant);
-  // }
-  // else { //otherwise the images are medium
-  //   image.src = DBHelper.imageUrlForRestaurantMedium(restaurant);
-  // }
   image.alt = restaurant.name + " restaurant's cover photo";
 
   const config = {
@@ -285,6 +271,10 @@ addMarkersToMap = (restaurants = self.restaurants) => {
   });
 }
 
+/**
+ * Added a static image map for the first load and when we click the real map appears.
+ * Not the prettiest solution, however it helps for the first paint so we can get >90 performance score :)
+ */
 const swap_map = () => {    
   if (document.getElementById('map').style.display === 'none'){        
     document.getElementById('map').style.display = 'block';

@@ -66,7 +66,7 @@ class DBHelper {
             const restaurants = data;
             this.addIndexedDb('restaurants', restaurants);
           });
-        } else { // Oops!. Got an error from server.
+        } else { // Got an error from server.
           const error = (`Request failed. Returned status of ${response.status}`);
           console.log(error);
         }
@@ -102,26 +102,6 @@ class DBHelper {
   /**
    * Fetch all reviews.
    */
-  static addReviews() {
-    console.log('ADD REVIEWS');
-    return fetch('http://localhost:1337/reviews/')
-      .then(response => {
-        if (response.status === 200) { // Got a success response from server!
-          response.json().then(data => {
-            const reviews = data;
-            console.log('rev2', reviews);
-            this.addIndexedDb('reviews', reviews);
-          });
-        } else { // Oops!. Got an error from server.
-          const error = (`Request failed. Returned status of ${response.status}`);
-          console.log(error);
-        }
-      })
-      .catch(err => {
-        console.log('Fetch Error:', err)
-      });
-  }
-
   static addReview(review) {
     let offlineObj = {
       name: 'addReview',
@@ -129,7 +109,6 @@ class DBHelper {
     }
 
     if (!navigator.onLine && offlineObj.name === 'addReview') {
-      console.log('OFFLINEOBJ', offlineObj);
       DBHelper.waitForNetwork(offlineObj);
       return;
     }
@@ -142,41 +121,30 @@ class DBHelper {
       "comments": review.comments,
     };
     console.log('Sending review: ', sendReview);
-    // let fetchOptions = {
-    //   method: 'POST',
-    //   body: JSON.stringify(sendReview),
-    //   headers: new Headers({
-    //     'Content-Type': 'application/json'
-    //   })
-    // };
-    fetch(`http://localhost:1337/reviews`, {
+    fetch(`http://localhost:1337/reviews/`, {
       method: 'POST',
       body: JSON.stringify(sendReview),
       headers: new Headers({
         'Content-Type': 'application/json'
       })
+    }).then(response => {
+      if (response.headers.get('content-type').indexOf('application/json') > -1) {
+        return response.json();
+      }
+      else {
+        return 'API call succeeded';
+      }
     })
-      .then(response => {
-        const ContentType = response.headers.get('content-type');
-        if (ContentType.indexOf('application/json') !== -1) {
-          return response.json();
-        }
-        else {
-          return 'API call succeeded';
-        }
-      })
-      .then(data => {
-        console.log('All good');
-      })
-      .catch(err => {
-        console.log('Error: ', err);
-      });
+    .then(data => {
+      console.log('All good');
+    })
+    .catch(err => {
+      console.log('Error: ', err);
+    });
   }
 
   static waitForNetwork(offlineObj) {
-    console.log('Offline Obj', offlineObj);
     localStorage.setItem('data', JSON.stringify(offlineObj.data));
-    console.log(`Local Storage: ${offlineObj.name} stored`);
     window.addEventListener('online', (event) => {
       console.log('Browser back online', event);
       let data = JSON.parse(localStorage.getItem('data'));
@@ -246,7 +214,6 @@ class DBHelper {
               store.put(reviews);
             }
           });
-        console.log('revs are: ', reviews);
         return Promise.resolve(reviews);
       })
       .catch(error => {
