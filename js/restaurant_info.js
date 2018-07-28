@@ -1,4 +1,5 @@
 let restaurant;
+let reviews = [];
 var map;
 
 /**
@@ -29,7 +30,6 @@ fetchRestaurantFromURL = (callback) => {
     return;
   }
   const id = getParameterByName('id');
-  console.log(id);
   if (!id) { // no id found in URL
     error = 'No restaurant id in URL';
     callback(error, null);
@@ -46,6 +46,38 @@ fetchRestaurantFromURL = (callback) => {
         }
         fillRestaurantHTML();
         callback(null, restaurant);
+      })
+  }
+}
+
+/**
+ * Get current reviews from page URL.
+ */
+fetchReviewsFromURL = (callback) => {
+  if (self.reviews) { // restaurant already fetched!
+    callback(null, self.reviews);
+    return;
+  }
+  const id = getParameterByName('id');
+  if (!id) { // no id found in URL
+    error = 'No restaurant id in URL';
+    callback(error, null);
+  } else {
+    DBHelper.openDatabase().then(db => {
+      console.log('here');
+      var tx = db.transaction('reviews', 'readonly');
+      var store = tx.objectStore('reviews');
+      var index = store.index('restaurant_id');
+      return index.openCursor()  //get(parseInt(id));
+      }).then(function show(cursor) {
+        if(!cursor) {return;}
+        if (cursor.key === parseInt(id)) {
+          reviews.push(cursor.value);
+        }
+        return cursor.continue().then(show)
+      }).then(() => {
+        fillReviewsHTML();
+        callback(null, reviews);
       })
   }
 }
@@ -74,7 +106,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   else if (window.innerWidth > 400 && window.innerWidth <= 1600) {
     image.src = DBHelper.imageUrlForRestaurantMedium(restaurant);
   }
-  //other wise for really wide screens we load the large photo
+  //otherwise for really wide screens we load the large photo
   else {
     image.src = DBHelper.imageUrlForRestaurantLarge(restaurant);
   }
@@ -87,8 +119,8 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   if (restaurant.operating_hours) {
     fillRestaurantHoursHTML();
   }
-  // fill reviews
-  fillReviewsHTML();
+      DBHelper.fetchReviewsById(restaurant.id)
+        .then(reviews => fillReviewsHTML(reviews));
 }
 
 /**
@@ -147,7 +179,15 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  /* Convert date to a nice format */
+  const monthNames = ["January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
+  ];
+  var niceDate = new Date(review.updatedAt);
+  var theyear = niceDate.getFullYear();
+  var themonth = monthNames[niceDate.getMonth()];
+  var thetoday = niceDate.getDate();
+  date.innerHTML = thetoday + ' ' + themonth + ', ' + theyear;
   date.setAttribute('tabindex', '0');
   li.appendChild(date);
 
@@ -192,4 +232,97 @@ getParameterByName = (name, url) => {
     return '';
   }
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
+}
+
+/**
+ * Select rating by clicking on the star buttons
+ */
+function select() {
+  let id = event.srcElement.id;
+  switch (id) {
+      case 'star1':
+          if (this.rating === 1 && document.getElementById('star1').className.includes('star-checked')) {
+              document.getElementById('star1').className = 'fa fa-star';
+              this.rating = 0;
+          }
+          else {
+              for (let i=1; i<=5; i++){
+                  document.getElementById('star'+i).className = 'fa fa-star';
+              }
+              document.getElementById('star1').className += ' star-checked';
+              this.rating = 1;
+          }
+          break;
+      case 'star2':
+          for (let i=1; i<=5; i++){
+              document.getElementById('star'+i).className = 'fa fa-star';
+          }
+          this.rating = 2;
+          for (let i=1; i<=2; i++){
+              document.getElementById('star'+i).className += ' star-checked';
+          }
+          break;
+      case 'star3':
+          for (let i=1; i<=5; i++){
+              document.getElementById('star'+i).className = 'fa fa-star';
+          }
+          this.rating = 3;
+          for (let i=1; i<=3; i++){
+              document.getElementById('star'+i).className += ' star-checked';
+          }
+          break;
+      case 'star4':
+          for (let i=1; i<=5; i++){
+              document.getElementById('star'+i).className = 'fa fa-star';
+          }
+          this.rating = 4;
+          for (let i=1; i<=4; i++){
+              document.getElementById('star'+i).className += ' star-checked';
+          }
+          break;
+      case 'star5':
+          for (let i=1; i<=5; i++){
+              document.getElementById('star'+i).className = 'fa fa-star';
+          }
+          this.rating = 5;
+          for (let i=1; i<=5; i++){
+              document.getElementById('star'+i).className += ' star-checked';
+          }
+          break;
+      default:
+          for (let i=1; i<=5; i++){
+              document.getElementById('star'+i).className = 'fa fa-star';
+          }
+  }
+}
+
+function reviewSubmit() {
+  console.log('submit');
+  event.preventDefault();
+
+  // Add to Html
+  const showReview = {
+    restaurant_id: parseInt(getParameterByName('id')),
+    name: document.getElementById('name').value,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    rating: this.rating || 0,
+    comments: document.getElementById('comment').value
+  }
+
+  DBHelper.addReview(showReview);
+  addReviewHTML(showReview);
+  document.getElementById('reviewForm').reset();
+}
+
+addReviewHTML = (review) => {
+  if (document.getElementById('no-review')) {
+      document.getElementById('no-review').remove();
+  }
+  const container = document.getElementById('reviews-container');
+  const ul = document.getElementById('reviews-list');
+
+  //insert the new review on top
+  ul.appendChild(createReviewHTML(review), ul.firstChild);
+  container.appendChild(ul);
 }

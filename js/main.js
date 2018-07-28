@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
     fetchNeighborhoods();
     fetchCuisines();
   });
-  
 });
 
 /**
@@ -33,7 +32,6 @@ fetchNeighborhoods = () => {
       )
       return neighArr;
   }).then(neighborhoods => {
-    console.log('neigh', neighborhoods);
     self.neighborhoods = neighborhoods;
     fillNeighborhoodsHTML();
   })
@@ -70,7 +68,6 @@ fetchCuisines = () => {
       )
       return cuisineArr;
   }).then(cuisines => {
-    console.log(cuisines);
     self.cuisines = cuisines;
     fillCuisinesHTML();
   })
@@ -126,8 +123,6 @@ updateRestaurants = () => {
     return store.openCursor();
     }).then(function showSelected(cursor) {
       if (!cursor) return; 
-      console.log(cursor.value.cuisine_type);
-      console.log(neighborhood);
       if (neighborhood === 'all' && cuisine === 'all') {
         selectedRestArr.push(cursor.value);
       }
@@ -146,7 +141,6 @@ updateRestaurants = () => {
       }
       return cursor.continue().then(showSelected);
     }).then(() => {
-      console.log('selArr', selectedRestArr);
       resetRestaurants(selectedRestArr);
       fillRestaurantsHTML();
     })
@@ -184,23 +178,56 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
   const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.setAttribute('tabindex', '0');
-
-  // When the width is less than 400 or between 750 and 100px the images are small
-  if (window.innerWidth <= 400 || (window.innerWidth > 750 && window.innerWidth <= 1000)) {
-    image.src = DBHelper.imageUrlForRestaurantSmall(restaurant);
-  }
-  else { //otherwise the images are medium
-    image.src = DBHelper.imageUrlForRestaurantMedium(restaurant);
-  }
   image.alt = restaurant.name + " restaurant's cover photo";
+
+  const config = {
+    threshold: 0.1
+  };
+  let observer;
+  if ('IntersectionObserver' in window) {
+    observer = new IntersectionObserver(onChange, config);
+    observer.observe(image);
+  } else {
+    loadImage(image);
+  }
+  const loadImage = image => {
+    image.className = 'restaurant-img';
+    image.setAttribute('tabindex', '0');
+    if (window.innerWidth <= 400 || (window.innerWidth > 750 && window.innerWidth <= 1000)) {
+      image.src = DBHelper.imageUrlForRestaurantSmall(restaurant);
+    }
+    else { //otherwise the images are medium
+      image.src = DBHelper.imageUrlForRestaurantMedium(restaurant);
+    }
+  }
+
+  function onChange(changes, observer) {
+    changes.forEach(change => {
+      if (change.intersectionRatio > 0) {
+        loadImage(change.target);
+        observer.unobserve(change.target);
+      }
+    });
+  }
+
   li.append(image);
 
   const name = document.createElement('h3');
   name.innerHTML = restaurant.name;
   name.setAttribute('tabindex', '0');
   li.append(name);
+
+  const favorite = document.createElement('span');
+  favorite.innerHTML = '❤';
+  favorite.classList.add('favorite-button');
+  favorite.onclick = function() {
+    const isFavorite = !restaurant.is_favorite;
+    DBHelper.updateFavorite(restaurant.id, isFavorite);
+    restaurant.is_favorite = !restaurant.is_favorite
+    toggleFavorite(favorite, restaurant.is_favorite)
+  };
+  toggleFavorite(favorite, restaurant.is_favorite);
+  li.append(favorite);
 
   const neighborhood = document.createElement('p');
   neighborhood.innerHTML = restaurant.neighborhood;
@@ -220,6 +247,16 @@ createRestaurantHTML = (restaurant) => {
   return li;
 }
 
+function toggleFavorite(el, isFav) {
+  if (isFav) {
+    el.classList.add('red-heart');
+    el.setAttribute('aria-label', 'unmark favorite');
+  } else {
+    el.classList.remove('red-heart');
+    el.setAttribute('aria-label', 'mark as favorite');
+  }
+}
+
 /**
  * Add markers for current restaurants to the map.
  */
@@ -232,4 +269,15 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     });
     self.markers.push(marker);
   });
+}
+
+/**
+ * Added a static image map for the first load and when we click the real map appears.
+ * Not the prettiest solution, however it helps for the first paint so we can get >90 performance score :)
+ */
+const swap_map = () => {    
+  if (document.getElementById('map').style.display === 'none'){        
+    document.getElementById('map').style.display = 'block';
+    document.getElementById('static_map').style.display = 'none';
+  }    
 }

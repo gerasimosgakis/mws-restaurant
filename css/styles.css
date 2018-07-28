@@ -33,8 +33,13 @@ p {
   line-height: 1.5;
 }
 
+html {
+  height: 100%;
+}
+
 body {
-  background-color: #fdfdfd;
+  min-height: 100%;
+  background-color: #f3f3f3;
   margin: 0;
   position: relative;
 }
@@ -426,10 +431,125 @@ nav h1 a {
   color: #666;
 }
 
+form i {
+  color: grey;
+  cursor: pointer;
+}
+
+.star-checked {
+  color: orange;
+}
+
+.form-container {
+  padding: 5px 5px 5px 5px;
+}
+
+form input {
+  line-height: 2;
+  border-radius: 10px;
+  width: 95%;
+  padding-left: 5px;
+}
+
+form textarea {
+  border-radius: 10px;
+  padding-left: 10px;
+  width: 95%;
+}
+
+.button-container {
+  text-align: center;
+}
+
+form button {
+  width: 200px;
+  height: 40px;
+  font-size: 14pt;
+  background-color: #a46a00;
+  color: white;
+}
+
+footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+}
+
+
+/* Modal */
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.favorite-button {
+  font-size: 38px;
+  color: #504f4f;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.red-heart {
+  color: red;
+}
+
 /* Media rule for screens wider than 450px */
 @media screen and (min-width: 450px) {
   .reviews-list li p:first-child {
     font-size: 18pt;
+  }
+
+  form {
+    font-size: 14pt;
+  }
+
+  form input, form textarea {
+    font-size: 12pt;
+    padding-left: 10px;
+  }
+
+  .form-container {
+    padding: 20px 20px 10px 20px;
+    font-size: 23px;
+  }
+
+  form button {
+    width: 250px;
   }
 
   .reviews-list li p:nth-child(2) {
@@ -459,6 +579,23 @@ nav h1 a {
   .reviews-list li p:nth-child(4) {
     font-size: 14pt;
   }
+
+  form input, form textarea {
+    line-height: 2;
+    border-radius: 10px;
+    /* width: 365px;
+    padding-left: 10px; */
+    /* width: 85%; */
+    padding-left: 5px;
+  }
+
+  .form-container {
+    font-size: 23px;
+  }
+
+  form button {
+    width: 250px;
+  }
 }
 
 /* Media rule for screens smaller than 750px */
@@ -478,7 +615,31 @@ nav h1 a {
 
 	.restaurants-list li {
 		width: calc(50% - 50px);
-	}
+  }
+  
+  form input, form textarea {
+    line-height: 2;
+    border-radius: 10px;
+    width: 365px;
+    padding-left: 10px;
+  }
+
+  form textarea {
+    width: 600px;
+  }
+
+  .form-container {
+    padding: 20px 100px 10px 100px;
+    font-size: 23px;
+  }
+
+  .button-container {
+    text-align: left;
+  }
+
+  form button {
+    width: 250px;
+  }
 }
 
 /* Media rule for screens wider than 950px */
