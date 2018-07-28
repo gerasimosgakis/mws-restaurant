@@ -18,7 +18,7 @@ Meet the new performance requirements: In addition to adding new features, the 
 
 ## 
 
-Please access the server [here](https://github.com/gerasimosgakis/mws-restaurant-stage-2) and follow the instructions to run it. Once the server is up and running you can follow the instructions below to run this app.
+Please access the server [here](https://github.com/gerasimosgakis/mws-restaurant-stage-3) and follow the instructions to run it. Once the server is up and running you can follow the instructions below to run this app.
 
 #### [](https://github.com/gerasimosgakis/mws-restaurant#what-do-i-do-from-here)What do I do from here?
 
