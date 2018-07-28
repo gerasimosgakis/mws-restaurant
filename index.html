@@ -29,7 +29,8 @@
     <a href ="#filter-options" class="skip-map">Skip the map</a>
     <!-- Beginning map -->
     <section id="map-container">
-      <div id="map" tabindex="0" aria-role="application" aria-label="map"></div>
+      <img id="static_map" style="cursor: pointer; width: 100%; max-height: 600px;" onclick="swap_map()" src="https://maps.googleapis.com/maps/api/staticmap?center=40.722216,-73.987501&zoom=12&size=700x300&format=jpg&maptype=roadmap  &markers=color:red%7Clabel:S%7C40.722216,-73.987501&key=AIzaSyBt5JL5BQWKC3p5FTNrNddAF8fNzPxo0wM"></img>
+      <div id="map" style="display: none" tabindex="0" aria-role="application" aria-label="map"></div>
     </section>
     <!-- End map -->
     <!-- Beginning filter -->
