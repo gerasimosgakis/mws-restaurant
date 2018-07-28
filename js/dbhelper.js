@@ -80,7 +80,6 @@ class DBHelper {
    * Update the favorite restaurants.
    */
   static updateFavorite(restaurantId, isFav) {
-    console.log('changing to: ', isFav);
 
     fetch(`http://localhost:1337/restaurants/${restaurantId}/?is_favorite=${isFav}`, {
       method: 'PUT'
@@ -258,8 +257,8 @@ class DBHelper {
             if (!db) {
               return;
             }
-            const store = db.transaction(table).objectStore(table);
-            const index = store.index(restaurant_id);
+            const store = db.transaction('reviews').objectStore('reviews');
+            const index = store.index('restaurant_id');
             return index.getAll(id);
           })
           .then(reviews => {
