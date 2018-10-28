@@ -1,6 +1,9 @@
 ## Project Overview
 
-For the Restaurant Reviews projects, I've incrementally converted a static webpage to a mobile-ready web application. I have added a form to allow users to create their own reviews. If the app is offline, my form  defers updating to the remote database until a connection is established. Finally, I've optimized the app to meet the stricted performance specifications. WPA, accessibility and performance all get score &gt;90 from lighthouse.
+For the Restaurant Reviews project, I've incrementally converted a static webpage to a mobile-ready web application.
+• I have made it responsive for any device or orientation and I have made sure it is accessible to everyone.
+• Using service workers, I have made efficient use of caching and all the newest technologies to make the application offline first.
+• I have added a form to allow users to create their own reviews. If the app is offline, the form defers updating to the remote database until a connection is established. Finally, I've optimized the app to meet the stricted performance specifications. WPA, accessibility and performance all get score >90 from lighthouse.
 
 ### Requirements
 
