@@ -37,10 +37,8 @@ python -m SimpleHTTPServer 8000 (or some other port, if port 8000 is already in
 
 python3 -m http.server 8000. If you don't have Python installed, navigate to Python's [website](https://www.python.org/) to download and install the software.
 
-1. With your server running, visit the site: 
+2. With your server running, visit the site: 
 
 http://localhost:8000, and look around for a bit to see what the current experience looks like.
-2. Explore the provided code, and make start making a plan to implement the required features in three areas: responsive design, accessibility and offline use.
-3. Write code to implement the updates to get this site on its way to being a mobile-ready website.
 
 
